@@ -42,13 +42,23 @@
 
 		<div id="container">
 		    <div id="json-view"> 
-				<textarea
-					chart-json-edit
-					view-model="chartViewModel"
-					>
+				<textarea chart-json-edit view-model="chartViewModel">
 				</textarea>
 			</div>
 		    <div id="chart-view">
+
+		    <!-- still stubs, no functionality yet -->
+		    	<button ng-click="addPiece('AND')">+ AND</button>
+		    	<button ng-click="addPiece('OR')">+ OR</button>
+		    	<button ng-click="addPiece('XOR')">+ XOR</button>
+		    	<button ng-click="addPiece('NOR')">+ NOR</button>
+		    	<button ng-click="addPiece('NOT')">+ NOT</button>
+		    	<button ng-click="addPiece('HSTI-NOT')">+ HSTI NOT</button>
+		    	<button ng-click="addPiece('ADDER')">+ ADDER</button>
+		    	<button ng-click="addPiece('SWITCH')">+ SWITCH</button>
+		    	<button ng-click="addPiece('LED')">+ LED</button>
+
+		    	<!--
     			<button
     				ng-click="addNewNode()"
     				title="Add a new node to the chart"
@@ -69,6 +79,7 @@
     				>
     				Add Output Connector
 				</button>
+				-->
     			<button
     				ng-click="deleteSelected()"
     				ng-disabled="chartViewModel.getSelectedNodes().length == 0 && chartViewModel.getSelectedConnections().length == 0"
@@ -78,9 +89,7 @@
 				</button>
 
 				<!-- This custom element defines the flowchart. -->
-			    <flow-chart id="flow-chart"
-			      	chart="chartViewModel"
-			      	>
+			    <flow-chart id="flow-chart" chart="chartViewModel">
 			    </flow-chart>
 		    </div>
 		</div>
