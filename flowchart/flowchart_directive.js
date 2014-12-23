@@ -119,8 +119,8 @@ angular.module('flowChart', ['dragging'] )
 	//
 	// The class for connections and connectors.
 	//
-	this.connectionClass = 'connection'; // wire
-	this.connectorClass = 'connector'; // port
+	this.connectionClass = 'connection'; // connection --> wire
+	this.connectorClass = 'connector'; // connector --> port
 	this.nodeClass = 'node';
 
 	//
