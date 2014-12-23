@@ -56,8 +56,9 @@ angular.module('app', ['flowChart', ])
 
 	//
 	// Setup the data-model for the chart.
+	// moved to an external file
 	//
-	var chartDataModel = {
+	var chartDataModel = initialChartLayout; /*{
 
 		nodes: [
 			{
@@ -136,7 +137,7 @@ angular.module('app', ['flowChart', ])
 
 
 		]
-	};
+	};*/
 
 	//
 	// Event handler for key-down on the flowchart.
