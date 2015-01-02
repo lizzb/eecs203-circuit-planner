@@ -53,7 +53,6 @@ angular.module('app', ['flowChart', ])
 	$scope.keyDown = function (evt) {
 
 		if (evt.keyCode === ctrlKeyCode) {
-
 			ctrlDown = true;
 			evt.stopPropagation();
 			evt.preventDefault();
@@ -64,28 +63,24 @@ angular.module('app', ['flowChart', ])
 	// Event handler for key-up on the flowchart.
 	$scope.keyUp = function (evt) {
 
+		// Delete key --> Deleted selected [chart] elements
 		if (evt.keyCode === deleteKeyCode) {
-			//
-			// Delete key.
-			//
 			$scope.chartViewModel.deleteSelected();
 		}
 
+		// Ctrl + A --> Select All
 		if (evt.keyCode == aKeyCode && ctrlDown) {
-			// 
-			// Ctrl + A
-			//
 			$scope.chartViewModel.selectAll();
 		}
 
+		// Escape --> Deselect All
 		if (evt.keyCode == escKeyCode) {
-			// Escape.
 			$scope.chartViewModel.deselectAll();
 		}
 
+		// Ctrl key is released (for multi-key shortcuts, like ctrl+a)
 		if (evt.keyCode === ctrlKeyCode) {
 			ctrlDown = false;
-
 			evt.stopPropagation();
 			evt.preventDefault();
 		}
@@ -101,6 +96,11 @@ angular.module('app', ['flowChart', ])
 			return;
 		}
 
+		// MOVE TEMPLATE FOR NEW NODE EXTERNAL........todo
+		// Setup the data-model for the chart.
+		// moved to an external file - chart-data.js
+		//
+
 		//
 		// Template for a new node.
 		//
@@ -109,27 +109,27 @@ angular.module('app', ['flowChart', ])
 			id: nextNodeID++,
 			x: 0,
 			y: 0,
-			inputConnectors: [
-				{
-					name: "X"
-				},
-				{
-					name: "Y"
-				},
-				{
-					name: "Z"
-				}
+			inputTerminals: [
+			{
+				name: "X"
+			},
+			{
+				name: "Y"
+			},
+			{
+				name: "Z"
+			}
 			],
-			outputConnectors: [ 
-				{
-					name: "1"
-				},
-				{
-					name: "2"
-				},
-				{
-					name: "3"
-				}
+			outputTerminals: [ 
+			{
+				name: "1"
+			},
+			{
+				name: "2"
+			},
+			{
+				name: "3"
+			}
 			],
 		};
 
@@ -137,43 +137,43 @@ angular.module('app', ['flowChart', ])
 	};
 
 	//
-	// Add an input connector to selected nodes.
+	// Add an input terminal to selected nodes.
 	//
-	$scope.addNewInputConnector = function () {
-		var connectorName = prompt("Enter a connector name:", "New connector");
-		if (!connectorName) {
+	$scope.addNewInputTerminal = function () {
+		var terminalName = prompt("Enter a terminal name:", "New terminal");
+		if (!terminalName) {
 			return;
 		}
 
 		var selectedNodes = $scope.chartViewModel.getSelectedNodes();
 		for (var i = 0; i < selectedNodes.length; ++i) {
 			var node = selectedNodes[i];
-			node.addInputConnector({
-				name: connectorName,
+			node.addInputTerminal({
+				name: terminalName,
 			});
 		}
 	};
 
 	//
-	// Add an output connector to selected nodes.
+	// Add an output terminal to selected nodes.
 	//
-	$scope.addNewOutputConnector = function () {
-		var connectorName = prompt("Enter a connector name:", "New connector");
-		if (!connectorName) {
+	$scope.addNewOutputTerminal = function () {
+		var terminalName = prompt("Enter a terminal name:", "New terminal");
+		if (!terminalName) {
 			return;
 		}
 
 		var selectedNodes = $scope.chartViewModel.getSelectedNodes();
 		for (var i = 0; i < selectedNodes.length; ++i) {
 			var node = selectedNodes[i];
-			node.addOutputConnector({
-				name: connectorName,
+			node.addOutputTerminal({
+				name: terminalName,
 			});
 		}
 	};
 
 	//
-	// Delete selected nodes and connections.
+	// Delete selected nodes and wires.
 	//
 	$scope.deleteSelected = function () {
 		$scope.chartViewModel.deleteSelected();

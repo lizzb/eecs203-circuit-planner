@@ -1,0 +1,61 @@
+implement a 4-bit adder with input and output using transistor-transistor logic (TTL). This lab is meant to be an gentle introduction to digital logic design
+
+... Digital adders ...
+
+integrated circuit (IC) is capable of adding two 4-bit binary inputs and generating a 4-bit sum and a carry.
+
+build the right input circuit so that you can feed it values, and construct an output circuit so that you can display the result.
+
+VDD (red) and GND (blue) lines on your protoboard.
+
+ower the board by connecting the power supply to the red and black terminals at the top of the protoboard. Verify that you have made the correct connections using the logic probe in your lab kit:
+Make sure that the probe is set to TTL (not CMOS) and that the lower switch is set away from LATCH. Use the alligator clips to connect your probe to the red and black posts.
+
+pick holes adjacent to the red and blue lines and use the probe to make sure that they are properly connected. 
+
+Any soundly connected node should either give your logic probe a solid ON (Logic High) or OFF (Logic Low) LED output. 
+
+This will produce two 4-bit inputs and hence require a total of eight switches. 
+
+schematic diagram for a single switch
+
+
+You’ll need a few items from your 
+parts kit:  These will be the inputs for your adder.
+DIP switch - a collection of 12 indepedent switches boxed up in one neat package
+IC socket, 
+resistor strip. 
+
+However, the DIP switch doesn’t quite fit the holes in our protoboard, so we’ll enlist the help of the IC socket to ensure that everything fits together snugly. Place the DIP switch in the IC socket and then seat the socket in the protoboard so that it straddles the grooves. 
+
+Now, wire the top terminals of eight switches to VDD (we only need eight switches for this lab, 
+
+Wire the other terminals of the same eight switches to a resistor using the resistor strip. 
+Remember that the resistor strip has one common terminal which should be connected to ground only. The remaining terminals should connect to the DIP. 
+
+Once everything is wired to power and ground,
+As you flip the switch between ON/OFF, the switch terminals near the resistor should either register Logic High or Logic Low (never undefined). 
+
+
+This will generate a 4-bit sum output and a single carry output.
+
+schematic diagram for a single output:
+
+
+
+use the LED strip, IC socket, and resistor strip. 
+Place the LED strip inside the IC socket. 
+Then place the IC socket on the protoboard so that it straddles a groove. 
+Note that all LEDs are polarized devices, you need to identify the positive and negative terminals. With our LED strip, the side with positive terminals has a small notch in the corner. If you want the LEDs to light up correctly, make sure that you have the proper orientation. Connect the resistor strip to the negative terminals of the LED strip. Then connect the common terminal of the resistor strip to GND. For the time being, leave the other terminal of the LEDs unconnected...eventually they will be connected to the IC. You should test your LEDs to make sure that they are functional. You can indepedently test them by connecting them one at a time to VDD. They should light up brightly.
+OK. You hopefully, have working input and output circuts at this point. This allows us to get to the real workhorse oh the lab...the 7483 Four-bit Adder IC. You should consult the datasheet for the IC..it’s in the packet of papers that came with your lab kit (or you can look for a 7483 datasheet online). The datasheet describes the basic operation of the device including most importantly, the pin-out and truth table.
+
+
+
+First wire up the 7483’s VDD (or VCC) and GND (Pins 5 and 12 respectively) to your breadboard VDD/GND. 
+
+Then following the block-diagram wire the remaining pins.
+Once you are done, all pins of the 7483 should be connected to something.
+Power up your board by plugging in the power supply. 
+If correct, the input DIP switches should control the adder. Verify that you see the sum of the two inputs A + B on your output LED as well as the carry (5 bits total output). 
+If the output doesn’t match, double check your wiring. Subtle wiring mistakes can lead to nonsensical outputs. 
+

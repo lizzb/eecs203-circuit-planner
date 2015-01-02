@@ -46,14 +46,11 @@ angular.module('flowChart', ['dragging'] )
 				}
 			};
 
-			//
 			// First up, set the initial value of the textarea.
-			//
 			updateJson();
 
-			//
-			// Watch for changes in the data model and update the textarea whenever necessary.
-			//
+			// Watch for changes in the data model
+			// and update the textarea whenever necessary.
 			scope.$watch("viewModel.data", updateJson, true);
 
 			//
@@ -97,8 +94,8 @@ angular.module('flowChart', ['dragging'] )
 	//
 	// Init data-model variables.
 	//
-	$scope.draggingConnection = false;
-	$scope.connectorSize = 10;
+	$scope.draggingWire = false;
+	$scope.terminalSize = 10;
 	$scope.dragSelecting = false;
 	/* Can use this to test the drag selection rect.
 	$scope.dragSelectionRect = {
@@ -110,17 +107,17 @@ angular.module('flowChart', ['dragging'] )
 	*/
 
 	//
-	// Reference to the connection, connector or node that the mouse is currently over.
+	// Reference to the wire, terminal or node that the mouse is currently over.
 	//
-	$scope.mouseOverConnector = null;
-	$scope.mouseOverConnection = null;
+	$scope.mouseOverTerminal = null;
+	$scope.mouseOverWire = null;
 	$scope.mouseOverNode = null;
 
 	//
-	// The class for connections and connectors.
+	// The class for wires and terminals.
 	//
-	this.connectionClass = 'connection'; // connection --> wire
-	this.connectorClass = 'connector'; // connector --> port
+	this.wireClass = 'wire'; // wire --> wire
+	this.terminalClass = 'terminal'; // terminal --> port
 	this.nodeClass = 'node';
 
 	//
@@ -136,11 +133,11 @@ angular.module('flowChart', ['dragging'] )
 		}
 
 		// 
-		// Check if the element has the class that identifies it as a connector.
+		// Check if the element has the class that identifies it as a terminal.
 		//
 		if (hasClassSVG(element, parentClass)) {
 			//
-			// Found the connector element.
+			// Found the terminal element.
 			//
 			return element;
 		}
@@ -152,7 +149,7 @@ angular.module('flowChart', ['dragging'] )
 	};
 
 	//
-	// Hit test and retreive node and connector that was hit at the specified coordinates.
+	// Hit test and retreive node and terminal that was hit at the specified coordinates.
 	//
 	this.hitTest = function (clientX, clientY) {
 
@@ -163,12 +160,12 @@ angular.module('flowChart', ['dragging'] )
 	};
 
 	//
-	// Hit test and retreive node and connector that was hit at the specified coordinates.
+	// Hit test and retreive node and terminal that was hit at the specified coordinates.
 	//
 	this.checkForHit = function (mouseOverElement, whichClass) {
 
 		//
-		// Find the parent element, if any, that is a connector.
+		// Find the parent element, if any, that is a terminal.
 		//
 		var hoverElement = this.searchUp(this.jQuery(mouseOverElement), whichClass);
 		if (!hoverElement) {
@@ -249,8 +246,8 @@ angular.module('flowChart', ['dragging'] )
 		//
 		// Clear out all cached mouse over elements.
 		//
-		$scope.mouseOverConnection = null;
-		$scope.mouseOverConnector = null;
+		$scope.mouseOverWire = null;
+		$scope.mouseOverTerminal = null;
 		$scope.mouseOverNode = null;
 
 		var mouseOverElement = controller.hitTest(evt.clientX, evt.clientY);
@@ -259,21 +256,21 @@ angular.module('flowChart', ['dragging'] )
 			return;
 		}
 
-		if (!$scope.draggingConnection) { // Only allow 'connection mouse over' when not dragging out a connection.
+		if (!$scope.draggingWire) { // Only allow 'wire mouse over' when not dragging out a wire.
 
-			// Figure out if the mouse is over a connection.
-			var scope = controller.checkForHit(mouseOverElement, controller.connectionClass);
-			$scope.mouseOverConnection = (scope && scope.connection) ? scope.connection : null;
-			if ($scope.mouseOverConnection) {
+			// Figure out if the mouse is over a wire.
+			var scope = controller.checkForHit(mouseOverElement, controller.wireClass);
+			$scope.mouseOverWire = (scope && scope.wire) ? scope.wire : null;
+			if ($scope.mouseOverWire) {
 				// Don't attempt to mouse over anything else.
 				return;
 			}
 		}
 
-		// Figure out if the mouse is over a connector.
-		var scope = controller.checkForHit(mouseOverElement, controller.connectorClass);
-		$scope.mouseOverConnector = (scope && scope.connector) ? scope.connector : null;
-		if ($scope.mouseOverConnector) {
+		// Figure out if the mouse is over a terminal.
+		var scope = controller.checkForHit(mouseOverElement, controller.terminalClass);
+		$scope.mouseOverTerminal = (scope && scope.terminal) ? scope.terminal : null;
+		if ($scope.mouseOverTerminal) {
 			// Don't attempt to mouse over anything else.
 			return;
 		}
@@ -333,11 +330,11 @@ angular.module('flowChart', ['dragging'] )
 	};
 
 	//
-	// Handle mousedown on a connection.
+	// Handle mousedown on a wire.
 	//
-	$scope.connectionMouseDown = function (evt, connection) {
+	$scope.wireMouseDown = function (evt, wire) {
 		var chart = $scope.chart;
-		chart.handleConnectionMouseDown(connection, evt.ctrlKey);
+		chart.handleWireMouseDown(wire, evt.ctrlKey);
 
 		// Don't let the chart handle the mouse down.
 		evt.stopPropagation();
@@ -345,12 +342,12 @@ angular.module('flowChart', ['dragging'] )
 	};
 
 	//
-	// Handle mousedown on an input connector.
+	// Handle mousedown on an input terminal.
 	//
-	$scope.connectorMouseDown = function (evt, node, connector, connectorIndex, isInputConnector) {
+	$scope.terminalMouseDown = function (evt, node, terminal, terminalIndex, isInputTerminal) {
 
 		//
-		// Initiate dragging out of a connection.
+		// Initiate dragging out of a wire.
 		//
 		dragging.startDrag(evt, {
 
@@ -368,34 +365,35 @@ angular.module('flowChart', ['dragging'] )
 				//
 				//
 				//
+				$scope.wireEndpointR = "5";
 				$scope.dragPointR = "4";
 				//
 				//
 				//
 				//
 				//
-				$scope.draggingConnection = true;
-				$scope.dragPoint1 = flowchart.computeConnectorPos(node, connectorIndex, isInputConnector);
+				$scope.draggingWire = true;
+				$scope.dragPoint1 = flowchart.computeTerminalPos(node, terminalIndex, isInputTerminal);
 				$scope.dragPoint2 = {
 					x: curCoords.x,
 					y: curCoords.y
 				};
-				$scope.dragTangent1 = flowchart.computeConnectionSourceTangent($scope.dragPoint1, $scope.dragPoint2);
-				$scope.dragTangent2 = flowchart.computeConnectionDestTangent($scope.dragPoint1, $scope.dragPoint2);
+				$scope.dragTangent1 = flowchart.computeWireSourceTangent($scope.dragPoint1, $scope.dragPoint2);
+				$scope.dragTangent2 = flowchart.computeWireDestTangent($scope.dragPoint1, $scope.dragPoint2);
 			},
 
 			//
-			// Called on mousemove while dragging out a connection.
+			// Called on mousemove while dragging out a wire.
 			//
 			dragging: function (x, y, evt) {
 				var startCoords = controller.translateCoordinates(x, y, evt);
-				$scope.dragPoint1 = flowchart.computeConnectorPos(node, connectorIndex, isInputConnector);
+				$scope.dragPoint1 = flowchart.computeTerminalPos(node, terminalIndex, isInputTerminal);
 				$scope.dragPoint2 = {
 					x: startCoords.x,
 					y: startCoords.y
 				};
-				$scope.dragTangent1 = flowchart.computeConnectionSourceTangent($scope.dragPoint1, $scope.dragPoint2);
-				$scope.dragTangent2 = flowchart.computeConnectionDestTangent($scope.dragPoint1, $scope.dragPoint2);
+				$scope.dragTangent1 = flowchart.computeWireSourceTangent($scope.dragPoint1, $scope.dragPoint2);
+				$scope.dragTangent2 = flowchart.computeWireDestTangent($scope.dragPoint1, $scope.dragPoint2);
 			},
 
 			//
@@ -403,18 +401,18 @@ angular.module('flowChart', ['dragging'] )
 			//
 			dragEnded: function () {
 
-				if ($scope.mouseOverConnector && 
-					$scope.mouseOverConnector !== connector) {
+				if ($scope.mouseOverTerminal && 
+					$scope.mouseOverTerminal !== terminal) {
 
 					//
 					// Dragging has ended...
-					// The mouse is over a valid connector...
-					// Create a new connection.
+					// The mouse is over a valid terminal...
+					// Create a new wire.
 					//
-					$scope.chart.createNewConnection(connector, $scope.mouseOverConnector);
+					$scope.chart.createNewWire(terminal, $scope.mouseOverTerminal);
 				}
 
-				$scope.draggingConnection = false;
+				$scope.draggingWire = false;
 				delete $scope.dragPoint1;
 				delete $scope.dragTangent1;
 				delete $scope.dragPoint2;

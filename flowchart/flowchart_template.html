@@ -32,142 +32,113 @@
   <g
     ng-repeat="node in chart.nodes"
     ng-mousedown="nodeMouseDown($event, node)"
-    ng-attr-transform="translate({{node.x()}}, {{node.y()}})"
-    >
-    <rect 
+    ng-attr-transform="translate({{node.x()}}, {{node.y()}})">
+    <rect
       ng-attr-class="node-rect {{node.selected() && 'selected-node-rect' || (node == mouseOverNode && 'mouseover-node-rect' || 'node-rect')}}"
-      ng-attr-ry="{{node.cornerRad()}}" ng-attr-rx="{{node.cornerRad()}}"
+      ng-attr-ry="{{node.cornerRad()}}"
+      ng-attr-rx="{{node.cornerRad()}}"
       x="0" y="0" 
       ng-attr-width="{{node.width()}}" 
-      ng-attr-height="{{node.height()}}" 
-      >
+      ng-attr-height="{{node.height()}}"/>
       <!--fill="url(#nodeBackgroundGradient)"-->
-      
 
-    </rect>
-
-    <text
-      class="node-label"
+    <text class="node-label"
       ng-attr-x="{{node.width()/2}}"
-      ng-attr-y="{{node.defaultLabelHeight()}}"
-      >
+      ng-attr-y="{{node.defaultLabelHeight()}}">
       {{node.name()}}
     </text>
 
-    <g
-      ng-repeat="connector in node.inputConnectors"
-      ng-mousedown="connectorMouseDown($event, node, connector, $index, true)"
-      class="connector input-connector"
-      >
-      <text
-        class="input-label"
-        ng-attr-x="{{connector.x() + node.defaultLabelOffset()}}" 
-        ng-attr-y="{{connector.y()}}"
-        >
-        <!-- + 20 -->
-        {{connector.name()}}
+    <g class="terminal input-terminal"
+      ng-repeat="terminal in node.inputTerminals"
+      ng-mousedown="terminalMouseDown($event, node, terminal, $index, true)">
+
+      <text class="input-label"
+        ng-attr-x="{{terminal.x() + node.defaultLabelOffset()}}" 
+        ng-attr-y="{{terminal.y()}}">
+        {{terminal.name()}}
       </text>
       
-      <circle
-        class="connector-circle"  
-        ng-attr-class="{{connector == mouseOverConnector && 'mouseover-connector-circle' || 'connector-circle'}}"
-        ng-attr-r="{{connectorSize}}" 
-        ng-attr-cx="{{connector.x()}}"
-        ng-attr-cy="{{connector.y()}}"
-        />
+      <circle class="terminal-circle"  
+        ng-attr-class="{{terminal == mouseOverTerminal && 'mouseover-terminal-circle' || 'terminal-circle'}}"
+        ng-attr-r="{{terminalSize}}" 
+        ng-attr-cx="{{terminal.x()}}"
+        ng-attr-cy="{{terminal.y()}}"/>
     </g>
 
     <g
-      ng-repeat="connector in node.outputConnectors"
-      ng-mousedown="connectorMouseDown($event, node, connector, $index, false)"
-      class="connector output-connector"
+    class="terminal output-terminal"
+      ng-repeat="terminal in node.outputTerminals"
+      ng-mousedown="terminalMouseDown($event, node, terminal, $index, false)"
       >
-      <text
-        class="output-label"
-        ng-attr-x="{{connector.x() - node.defaultLabelOffset()}}" 
-        ng-attr-y="{{connector.y()}}"
-        >
-        <!-- - 20 -->
-        {{connector.name()}}
+      <text class="output-label"
+        ng-attr-x="{{terminal.x() - node.defaultLabelOffset()}}" 
+        ng-attr-y="{{terminal.y()}}">
+        {{terminal.name()}}
       </text>
 
-      <circle
-        class="connector-circle"            
-        ng-attr-class="{{connector == mouseOverConnector && 'mouseover-connector-circle' || 'connector-circle'}}"
-        ng-attr-r="{{connectorSize}}" 
-        ng-attr-cx="{{connector.x()}}"
-        ng-attr-cy="{{connector.y()}}"
-        />
+      <circle class="terminal-circle"            
+        ng-attr-class="{{terminal == mouseOverTerminal && 'mouseover-terminal-circle'}}"
+        ng-attr-r="{{terminalSize}}" 
+        ng-attr-cx="{{terminal.x()}}"
+        ng-attr-cy="{{terminal.y()}}"/>
     </g>
   </g>
+
 
   <g>
     <g
-      ng-repeat="connection in chart.connections"
-      class="connection"
-      ng-mousedown="connectionMouseDown($event, connection)"
-      >
+      class="wire"
+      ng-repeat="wire in chart.wires"
+      ng-mousedown="wireMouseDown($event, wire)">
         <path
-          ng-attr-class="{{connection.selected() && 'selected-connection-line' || (connection == mouseOverConnection && 'mouseover-connection-line' || 'connection-line')}}"
-          ng-attr-d="M {{connection.sourceCoordX()}}, {{connection.sourceCoordY()}}
-                     C {{connection.sourceTangentX()}}, {{connection.sourceTangentY()}}
-                       {{connection.destTangentX()}}, {{connection.destTangentY()}}
-                       {{connection.destCoordX()}}, {{connection.destCoordY()}}"
+          ng-attr-class="{{wire.selected() && 'selected-wire-line' || (wire == mouseOverWire && 'mouseover-wire-line' || 'wire-line')}}"
+          ng-attr-d="M {{wire.sourceCoordX()}}, {{wire.sourceCoordY()}}
+                     C {{wire.sourceTangentX()}}, {{wire.sourceTangentY()}}
+                       {{wire.destTangentX()}}, {{wire.destTangentY()}}
+                       {{wire.destCoordX()}}, {{wire.destCoordY()}}"
           >
         </path>
         <circle
-            ng-attr-class="{{connection.selected() && 'selected-connection-endpoint' || (connection == mouseOverConnection && 'mouseover-connection-endpoint' || 'connection-endpoint')}}"
-            r="5" 
-            ng-attr-cx="{{connection.sourceCoordX()}}" 
-            ng-attr-cy="{{connection.sourceCoordY()}}" 
-            >
-        </circle>
+            ng-attr-class="{{wire.selected() && 'selected-wire-endpoint' || (wire == mouseOverWire && 'mouseover-wire-endpoint' || 'wire-endpoint')}}"
+            ng-attr-r="{{wireEndpointR}}"
+            ng-attr-cx="{{wire.sourceCoordX()}}" 
+            ng-attr-cy="{{wire.sourceCoordY()}}"/>
+        <!--/circle-->
 
         <circle
-            ng-attr-class="{{connection.selected() && 'selected-connection-endpoint' || (connection == mouseOverConnection && 'mouseover-connection-endpoint' || 'connection-endpoint')}}"
-            r="5" 
-            ng-attr-cx="{{connection.destCoordX()}}" 
-            ng-attr-cy="{{connection.destCoordY()}}" 
-            >
-        </circle>
+            ng-attr-class="{{wire.selected() && 'selected-wire-endpoint' || (wire == mouseOverWire && 'mouseover-wire-endpoint' || 'wire-endpoint')}}"
+            ng-attr-r="{{wireEndpointR}}"
+            ng-attr-cx="{{wire.destCoordX()}}" 
+            ng-attr-cy="{{wire.destCoordY()}}"/>
     </g>
   </g>
 
-  <g ng-if="draggingConnection">
-    <path
-      class="dragging-connection dragging-connection-line"
+
+  <g ng-if="draggingWire">
+    <path class="dragging-wire dragging-wire-line"
       ng-attr-d="M {{dragPoint1.x}}, {{dragPoint1.y}}
                  C {{dragTangent1.x}}, {{dragTangent1.y}}
                    {{dragTangent2.x}}, {{dragTangent2.y}}
-                   {{dragPoint2.x}}, {{dragPoint2.y}}"
-      >
+                   {{dragPoint2.x}}, {{dragPoint2.y}}">
     </path>
 
-    <circle
-        class="dragging-connection dragging-connection-endpoint"
+    <circle class="dragging-wire dragging-wire-endpoint"
         ng-attr-r="{{dragPointR}}"
         ng-attr-cx="{{dragPoint1.x}}" 
-        ng-attr-cy="{{dragPoint1.y}}" 
-        >
-    </circle>
+        ng-attr-cy="{{dragPoint1.y}}"/>
 
-    <circle
-        class="dragging-connection dragging-connection-endpoint"
+    <circle class="dragging-wire dragging-wire-endpoint"
         ng-attr-r="{{dragPointR}}"
         ng-attr-cx="{{dragPoint2.x}}" 
-        ng-attr-cy="{{dragPoint2.y}}" 
-        >
-    </circle>
+        ng-attr-cy="{{dragPoint2.y}}"/>
   </g>
 
-  <rect
+
+  <rect class="drag-selection-rect"
       ng-if="dragSelecting"
-      class="drag-selection-rect"
       ng-attr-x="{{dragSelectionRect.x}}"
       ng-attr-y="{{dragSelectionRect.y}}"
       ng-attr-width="{{dragSelectionRect.width}}"
-      ng-attr-height="{{dragSelectionRect.height}}"
-    >
-  </rect>
+      ng-attr-height="{{dragSelectionRect.height}}"/>
   
 </svg>

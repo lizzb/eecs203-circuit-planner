@@ -2,17 +2,21 @@
 	<head>
 		<title>AngularJS-FlowChart</title>
 
-		<!-- LiveReload support.  http://livereload.com/ -->
-		<script src="http://localhost:35729/livereload.js?snipver=1"></script>
+		<!-- LiveReload support.  http://livereload.com/ 35729-->
+		<script src="http://localhost:8888/livereload.js?snipver=1">
+		</script>
 
 <style>
 #container {
 	width: 100%;
-	overflow: hidden;
+	/*overflow: hidden;*/
 }
 #json-view {
-	width: 250px;
-	float: left;
+	min-width: 185px;
+	width: 15%;
+	/*float: left;*/
+	display: inline-block;
+	position: relative;
 }
 
 #json-view textarea {
@@ -20,10 +24,17 @@
 	height: 100%;
 }
 #chart-view {
-	margin-left: 250px;
+	/*width: 900px;*/
+
+	min-width: 515px;
+	width: 80%;
+	
+	/*margin-left: 250px;*/
+	display: inline-block;
+	position: relative;
 }
 #flow-chart {
-	margin: 5px;
+	/*margin: 5px;*/
 	width: 100%;
 	height: 100%;
 }
@@ -40,14 +51,8 @@
 		ng-keyup="keyUp($event)"
 		>
 
-		<div id="container">
-		    <div id="json-view"> 
-				<textarea chart-json-edit view-model="chartViewModel">
-				</textarea>
-			</div>
-		    <div id="chart-view">
-
-		    <!-- still stubs, no functionality yet -->
+		<header>
+<!-- still stubs, no functionality yet -->
 		    	<button ng-click="addPiece('AND')">+ AND</button>
 		    	<button ng-click="addPiece('OR')">+ OR</button>
 		    	<button ng-click="addPiece('XOR')">+ XOR</button>
@@ -66,32 +71,43 @@
     				Add Node
 				</button>
     			<button
-    				ng-click="addNewInputConnector()"
+    				ng-click="addNewInputTerminal()"
     				ng-disabled="chartViewModel.getSelectedNodes().length == 0"
-    				title="Add a new input connector to the selected node"
+    				title="Add a new input terminal to the selected node"
     				>
-    				Add Input Connector
+    				Add Input Terminal
 				</button>
     			<button
-    				ng-click="addNewOutputConnector()"
+    				ng-click="addNewOutputTerminal()"
     				ng-disabled="chartViewModel.getSelectedNodes().length == 0"
-    				title="Add a new output connector to the selected node"
+    				title="Add a new output terminal to the selected node"
     				>
-    				Add Output Connector
+    				Add Output Terminal
 				</button>
 				-->
     			<button
     				ng-click="deleteSelected()"
-    				ng-disabled="chartViewModel.getSelectedNodes().length == 0 && chartViewModel.getSelectedConnections().length == 0"
-    				title="Delete selected nodes and connections"
+    				ng-disabled="chartViewModel.getSelectedNodes().length == 0 && chartViewModel.getSelectedWires().length == 0"
+    				title="Delete selected nodes and wires"
     				>
     				Delete Selected
 				</button>
+		</header>
+
+		<div id="container">
+
+		    <div id="json-view"> 
+				<textarea chart-json-edit view-model="chartViewModel">
+				</textarea>
+			</div>
+
+		    <div id="chart-view">
 
 				<!-- This custom element defines the flowchart. -->
 			    <flow-chart id="flow-chart" chart="chartViewModel">
 			    </flow-chart>
 		    </div>
+
 		</div>
 
 		<link rel="stylesheet" href="app.css">
