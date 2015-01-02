@@ -28,63 +28,63 @@ var flowchart = {
 	flowchart.nodeNameHeight = 40;
 
 	//
-	// Height of a connector in a node.
+	// Height of a terminal in a node.
 	//
-	flowchart.connectorHeight = 20; //35;
+	flowchart.terminalHeight = 20; //flowchart.connectorHeight = 20; //35;
 
 	//
-	// Compute the Y coordinate of a connector, given its index.
+	// Compute the Y coordinate of a terminal, given its index.
 	//
-	flowchart.computeConnectorY = function (connectorIndex) {
-		return flowchart.nodeNameHeight + (connectorIndex * flowchart.connectorHeight);
+	flowchart.computeTerminalY = function (terminalIndex) {
+		return flowchart.nodeNameHeight + (terminalIndex * flowchart.terminalHeight);
 	}
 
 	//
-	// Compute the position of a connector in the graph.
+	// Compute the position of a terminal in the graph.
 	//
-	flowchart.computeConnectorPos = function (node, connectorIndex, inputConnector) {
+	flowchart.computeTerminalPos = function (node, terminalIndex, inputTerminal) {
 		return {
-			x: node.x() + (inputConnector ? 0 : node.width ? node.width : flowchart.defaultNodeWidth),
-			y: node.y() + flowchart.computeConnectorY(connectorIndex),
+			x: node.x() + (inputTerminal ? 0 : node.width ? node.width : flowchart.defaultNodeWidth),
+			y: node.y() + flowchart.computeTerminalY(terminalIndex),
 		};
 	};
 
 
 	// ------------------------------------------------------------
 	//
-	// View model for a connector.
+	// View model for a terminal. (nee connector)
 	//
-	flowchart.ConnectorViewModel = function (connectorDataModel, x, y, parentNode) {
+	flowchart.TerminalViewModel = function (terminalDataModel, x, y, parentNode) {
 
-		this.data = connectorDataModel;
+		this.data = terminalDataModel;
 		this._parentNode = parentNode;
 		this._x = x;
 		this._y = y;
 
-		// The name of the connector.
+		// The name of the terminal.
 		this.name = function () { return this.data.name; }
 
-		// X coordinate of the connector.
+		// X coordinate of the terminal.
 		this.x = function () { return this._x; };
 
-		// Y coordinate of the connector.
+		// Y coordinate of the terminal.
 		this.y = function () { return this._y; };
 
-		// The parent node that the connector is attached to.
+		// The parent node that the terminal is attached to.
 		this.parentNode = function () {	return this._parentNode; };
 	};
 
 	//
 	// Create view model for a list of data models.
 	//
-	var createConnectorsViewModel = function (connectorDataModels, x, parentNode) {
+	var createTerminalsViewModel = function (terminalDataModels, x, parentNode) {
 		var viewModels = [];
 
-		if (connectorDataModels) {
-			for (var i = 0; i < connectorDataModels.length; ++i) {
-				var connectorViewModel = 
-					new flowchart.ConnectorViewModel(connectorDataModels[i], x, flowchart.computeConnectorY(i), parentNode);
-				viewModels.push(connectorViewModel);
+		if (terminalDataModels) {
+			for (var i = 0; i < terminalDataModels.length; ++i) {
+				var terminalViewModel = 
+					new flowchart.TerminalViewModel(terminalDataModels[i], x, flowchart.computeTerminalY(i), parentNode);
+				viewModels.push(terminalViewModel);
 			}
 		}
 
@@ -114,7 +114,7 @@ var flowchart = {
 		//
 		//
 		//
-		
+
 
 		this.data = nodeDataModel;
 
@@ -122,15 +122,14 @@ var flowchart = {
 		if (!this.data.width || this.data.width < 0) {
 			this.data.width = flowchart.defaultNodeWidth;
 		}
-		this.inputConnectors = createConnectorsViewModel(this.data.inputConnectors, 0, this);
-		this.outputConnectors = createConnectorsViewModel(this.data.outputConnectors, this.data.width, this);
+		this.inputTerminals = createTerminalsViewModel(this.data.inputTerminals, 0, this);
+		this.outputTerminals = createTerminalsViewModel(this.data.outputTerminals, this.data.width, this);
 
 		// Set to true when the node is selected.
 		this._selected = false;
 
-		//
+
 		// Name of the node.
-		//
 		this.name = function () { return this.data.name || ""; };
 
 		// X coordinate of the node.
@@ -146,11 +145,11 @@ var flowchart = {
 		// Height of the node.
 		//
 		this.height = function () {
-			var numConnectors =
+			var numTerminals =
 				Math.max(
-					this.inputConnectors.length, 
-					this.outputConnectors.length);
-			return flowchart.computeConnectorY(numConnectors);
+					this.inputTerminals.length, 
+					this.outputTerminals.length);
+			return flowchart.computeTerminalY(numTerminals);
 		}
 
 		// Select the node.
@@ -168,36 +167,36 @@ var flowchart = {
 		this.selected = function () { return this._selected; };
 
 		//
-		// Internal function to add a connector.
-		this._addConnector = function (connectorDataModel, x, connectorsDataModel, connectorsViewModel) {
-			var connectorViewModel = 
-				new flowchart.ConnectorViewModel(connectorDataModel, x, 
-						flowchart.computeConnectorY(connectorsViewModel.length), this);
+		// Internal function to add a terminal.
+		this._addTerminal = function (terminalDataModel, x, terminalsDataModel, terminalsViewModel) {
+			var terminalViewModel = 
+				new flowchart.TerminalViewModel(terminalDataModel, x, 
+						flowchart.computeTerminalY(terminalsViewModel.length), this);
 
-			connectorsDataModel.push(connectorDataModel);
+			terminalsDataModel.push(terminalDataModel);
 
 			// Add to node's view model.
-			connectorsViewModel.push(connectorViewModel);
+			terminalsViewModel.push(terminalViewModel);
 		}
 
 		//
-		// Add an input connector to the node.
-		this.addInputConnector = function (connectorDataModel) {
+		// Add an input terminal to the node.
+		this.addInputTerminal = function (terminalDataModel) {
 
-			if (!this.data.inputConnectors) {
-				this.data.inputConnectors = [];
+			if (!this.data.inputTerminals) {
+				this.data.inputTerminals = [];
 			}
-			this._addConnector(connectorDataModel, 0, this.data.inputConnectors, this.inputConnectors);
+			this._addTerminal(terminalDataModel, 0, this.data.inputTerminals, this.inputTerminals);
 		};
 
 		//
-		// Add an ouput connector to the node.
-		this.addOutputConnector = function (connectorDataModel) {
+		// Add an ouput terminal to the node.
+		this.addOutputTerminal = function (terminalDataModel) {
 
-			if (!this.data.outputConnectors) {
-				this.data.outputConnectors = [];
+			if (!this.data.outputTerminals) {
+				this.data.outputTerminals = [];
 			}
-			this._addConnector(connectorDataModel, this.data.width, this.data.outputConnectors, this.outputConnectors);
+			this._addTerminal(terminalDataModel, this.data.width, this.data.outputTerminals, this.outputTerminals);
 		};
 	};
 
@@ -220,11 +219,11 @@ var flowchart = {
 	//
 	// View model for a connection.
 	//
-	flowchart.ConnectionViewModel = function (connectionDataModel, sourceConnector, destConnector) {
+	flowchart.ConnectionViewModel = function (connectionDataModel, sourceTerminal, destTerminal) {
 
 		this.data = connectionDataModel;
-		this.source = sourceConnector;
-		this.dest = destConnector;
+		this.source = sourceTerminal;
+		this.dest = destTerminal;
 
 		// Set to true when the connection is selected.
 		this._selected = false;
@@ -364,31 +363,31 @@ var flowchart = {
 		};
 
 		//
-		// Find a specific input connector within the chart.
+		// Find a specific input terminal within the chart.
 		//
-		this.findInputConnector = function (nodeID, connectorIndex) {
+		this.findInputTerminal = function (nodeID, terminalIndex) {
 
 			var node = this.findNode(nodeID);
 
-			if (!node.inputConnectors || node.inputConnectors.length <= connectorIndex) {
-				throw new Error("Node " + nodeID + " has invalid input connectors.");
+			if (!node.inputTerminals || node.inputTerminals.length <= terminalIndex) {
+				throw new Error("Node " + nodeID + " has invalid input terminals.");
 			}
 
-			return node.inputConnectors[connectorIndex];
+			return node.inputTerminals[terminalIndex];
 		};
 
 		//
-		// Find a specific output connector within the chart.
+		// Find a specific output terminal within the chart.
 		//
-		this.findOutputConnector = function (nodeID, connectorIndex) {
+		this.findOutputTerminal = function (nodeID, terminalIndex) {
 
 			var node = this.findNode(nodeID);
 
-			if (!node.outputConnectors || node.outputConnectors.length <= connectorIndex) {
-				throw new Error("Node " + nodeID + " has invalid output connectors.");
+			if (!node.outputTerminals || node.outputTerminals.length <= terminalIndex) {
+				throw new Error("Node " + nodeID + " has invalid output terminals.");
 			}
 
-			return node.outputConnectors[connectorIndex];
+			return node.outputTerminals[terminalIndex];
 		};
 
 		//
@@ -396,9 +395,9 @@ var flowchart = {
 		//
 		this._createConnectionViewModel = function(connectionDataModel) {
 
-			var sourceConnector = this.findOutputConnector(connectionDataModel.source.nodeID, connectionDataModel.source.connectorIndex);
-			var destConnector = this.findInputConnector(connectionDataModel.dest.nodeID, connectionDataModel.dest.connectorIndex);			
-			return new flowchart.ConnectionViewModel(connectionDataModel, sourceConnector, destConnector);
+			var sourceTerminal = this.findOutputTerminal(connectionDataModel.source.nodeID, connectionDataModel.source.terminalIndex);
+			var destTerminal = this.findInputTerminal(connectionDataModel.dest.nodeID, connectionDataModel.dest.terminalIndex);			
+			return new flowchart.ConnectionViewModel(connectionDataModel, sourceTerminal, destTerminal);
 		}
 
 		// 
@@ -429,7 +428,7 @@ var flowchart = {
 		//
 		// Create a view model for a new connection.
 		//
-		this.createNewConnection = function (startConnector, endConnector) {
+		this.createNewConnection = function (startTerminal, endTerminal) {
 
 			var connectionsDataModel = this.data.connections;
 			if (!connectionsDataModel) {
@@ -441,29 +440,29 @@ var flowchart = {
 				connectionsViewModel = this.connections = [];
 			}
 
-			var startNode = startConnector.parentNode();
-			var startConnectorIndex = startNode.outputConnectors.indexOf(startConnector);
-			var startConnectorType = 'output';
-			if (startConnectorIndex == -1) {
-				startConnectorIndex = startNode.inputConnectors.indexOf(startConnector);
-				startConnectorType = 'input';
-				if (startConnectorIndex == -1) {
-					throw new Error("Failed to find source connector within either inputConnectors or outputConnectors of source node.");
+			var startNode = startTerminal.parentNode();
+			var startTerminalIndex = startNode.outputTerminals.indexOf(startTerminal);
+			var startTerminalType = 'output';
+			if (startTerminalIndex == -1) {
+				startTerminalIndex = startNode.inputTerminals.indexOf(startTerminal);
+				startTerminalType = 'input';
+				if (startTerminalIndex == -1) {
+					throw new Error("Failed to find source terminal within either inputTerminals or outputTerminals of source node.");
 				}
 			}
 
-			var endNode = endConnector.parentNode();
-			var endConnectorIndex = endNode.inputConnectors.indexOf(endConnector);
-			var endConnectorType = 'input';
-			if (endConnectorIndex == -1) {
-				endConnectorIndex = endNode.outputConnectors.indexOf(endConnector);
-				endConnectorType = 'output';
-				if (endConnectorIndex == -1) {
-					throw new Error("Failed to find dest connector within inputConnectors or outputConnectors of dest node.");
+			var endNode = endTerminal.parentNode();
+			var endTerminalIndex = endNode.inputTerminals.indexOf(endTerminal);
+			var endTerminalType = 'input';
+			if (endTerminalIndex == -1) {
+				endTerminalIndex = endNode.outputTerminals.indexOf(endTerminal);
+				endTerminalType = 'output';
+				if (endTerminalIndex == -1) {
+					throw new Error("Failed to find dest terminal within inputTerminals or outputTerminals of dest node.");
 				}
 			}
 
-			if (startConnectorType == endConnectorType) {
+			if (startTerminalType == endTerminalType) {
 				throw new Error("Failed to create connection. Only output to input connections are allowed.")
 			}
 
@@ -473,24 +472,24 @@ var flowchart = {
 
 			var startNode = {
 				nodeID: startNode.data.id,
-				connectorIndex: startConnectorIndex,
+				terminalIndex: startTerminalIndex,
 			}
 
 			var endNode = {
 				nodeID: endNode.data.id,
-				connectorIndex: endConnectorIndex,
+				terminalIndex: endTerminalIndex,
 			}
 
 			var connectionDataModel = {
-				source: startConnectorType == 'output' ? startNode : endNode,
-				dest: startConnectorType == 'output' ? endNode : startNode,
+				source: startTerminalType == 'output' ? startNode : endNode,
+				dest: startTerminalType == 'output' ? endNode : startNode,
 			};
 			connectionsDataModel.push(connectionDataModel);
 
-			var outputConnector = startConnectorType == 'output' ? startConnector : endConnector;
-			var inputConnector = startConnectorType == 'output' ? endConnector : startConnector;
+			var outputTerminal = startTerminalType == 'output' ? startTerminal : endTerminal;
+			var inputTerminal = startTerminalType == 'output' ? endTerminal : startTerminal;
 
-			var connectionViewModel = new flowchart.ConnectionViewModel(connectionDataModel, outputConnector, inputConnector);
+			var connectionViewModel = new flowchart.ConnectionViewModel(connectionDataModel, outputTerminal, inputTerminal);
 			connectionsViewModel.push(connectionViewModel);
 		};
 
@@ -544,7 +543,7 @@ var flowchart = {
 		};
 
 		//
-		// Update the location of the node and its connectors.
+		// Update the location of the node and its terminals.
 		//
 		this.updateSelectedNodesLocation = function (deltaX, deltaY) {
 

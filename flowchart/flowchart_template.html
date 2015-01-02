@@ -55,48 +55,48 @@
     </text>
 
     <g
-      ng-repeat="connector in node.inputConnectors"
-      ng-mousedown="connectorMouseDown($event, node, connector, $index, true)"
-      class="connector input-connector"
+      ng-repeat="terminal in node.inputTerminals"
+      ng-mousedown="terminalMouseDown($event, node, terminal, $index, true)"
+      class="terminal input-terminal"
       >
       <text
         class="input-label"
-        ng-attr-x="{{connector.x() + node.defaultLabelOffset()}}" 
-        ng-attr-y="{{connector.y()}}"
+        ng-attr-x="{{terminal.x() + node.defaultLabelOffset()}}" 
+        ng-attr-y="{{terminal.y()}}"
         >
         <!-- + 20 -->
-        {{connector.name()}}
+        {{terminal.name()}}
       </text>
       
       <circle
-        class="connector-circle"  
-        ng-attr-class="{{connector == mouseOverConnector && 'mouseover-connector-circle' || 'connector-circle'}}"
-        ng-attr-r="{{connectorSize}}" 
-        ng-attr-cx="{{connector.x()}}"
-        ng-attr-cy="{{connector.y()}}"
+        class="terminal-circle"  
+        ng-attr-class="{{terminal == mouseOverTerminal && 'mouseover-terminal-circle' || 'terminal-circle'}}"
+        ng-attr-r="{{terminalSize}}" 
+        ng-attr-cx="{{terminal.x()}}"
+        ng-attr-cy="{{terminal.y()}}"
         />
     </g>
 
     <g
-      ng-repeat="connector in node.outputConnectors"
-      ng-mousedown="connectorMouseDown($event, node, connector, $index, false)"
-      class="connector output-connector"
+      ng-repeat="terminal in node.outputTerminals"
+      ng-mousedown="terminalMouseDown($event, node, terminal, $index, false)"
+      class="terminal output-terminal"
       >
       <text
         class="output-label"
-        ng-attr-x="{{connector.x() - node.defaultLabelOffset()}}" 
-        ng-attr-y="{{connector.y()}}"
+        ng-attr-x="{{terminal.x() - node.defaultLabelOffset()}}" 
+        ng-attr-y="{{terminal.y()}}"
         >
         <!-- - 20 -->
-        {{connector.name()}}
+        {{terminal.name()}}
       </text>
 
       <circle
-        class="connector-circle"            
-        ng-attr-class="{{connector == mouseOverConnector && 'mouseover-connector-circle' || 'connector-circle'}}"
-        ng-attr-r="{{connectorSize}}" 
-        ng-attr-cx="{{connector.x()}}"
-        ng-attr-cy="{{connector.y()}}"
+        class="terminal-circle"            
+        ng-attr-class="{{terminal == mouseOverTerminal && 'mouseover-terminal-circle' || 'terminal-circle'}}"
+        ng-attr-r="{{terminalSize}}" 
+        ng-attr-cx="{{terminal.x()}}"
+        ng-attr-cy="{{terminal.y()}}"
         />
     </g>
   </g>

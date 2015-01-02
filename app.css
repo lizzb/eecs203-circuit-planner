@@ -54,14 +54,14 @@ Styles for nodes and connectors.
 	stroke-width: 3;
 }
 
-.terminal,
+/*.terminal,*/ .terminal-circle,
 .connector-circle {
     fill: white;
     stroke: black;
     stroke-width: 2;
 }
 
-.terminal-hover,
+.terminal-hover, .mouseover-terminal-circle,
 .mouseover-connector-circle {
     /*fill: white;
     stroke: black;*/
