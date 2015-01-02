@@ -226,6 +226,10 @@ var flowchart = {
 		//
 		//
 		var defaultWireColor = "gray";
+		/*this.color = defaultWireColor;
+		if(this.data.color) this.color = this.data.color;
+
+		this.color = function () { return this.color; };
 		//
 		//
 
@@ -234,11 +238,13 @@ var flowchart = {
 			not sure how i can add a style="stroke: wire.color"
 			that overrides default if theres a default in css? not totally sure what issue is actually
 		*/
-		this.color = function () {
+		/*this.color = function () {
 		//return this.data.color || defaultWireColor;
 		if(this.data.color) return this.data.color;
 		return defaultWireColor;
-	};
+	};*/
+
+	this.color = function () { return this.data.color || defaultWireColor; };
 
 		// Set to true when the wire is selected.
 		this._selected = false;
