@@ -109,7 +109,7 @@ angular.module('app', ['flowChart', ])
 			id: nextNodeID++,
 			x: 0,
 			y: 0,
-			inputTerminals: [
+			inputConnectors: [
 				{
 					name: "X"
 				},
@@ -120,7 +120,7 @@ angular.module('app', ['flowChart', ])
 					name: "Z"
 				}
 			],
-			outputTerminals: [ 
+			outputConnectors: [ 
 				{
 					name: "1"
 				},
@@ -137,37 +137,37 @@ angular.module('app', ['flowChart', ])
 	};
 
 	//
-	// Add an input terminal to selected nodes.
+	// Add an input connector to selected nodes.
 	//
-	$scope.addNewInputTerminal = function () {
-		var terminalName = prompt("Enter a terminal name:", "New terminal");
-		if (!terminalName) {
+	$scope.addNewInputConnector = function () {
+		var connectorName = prompt("Enter a connector name:", "New connector");
+		if (!connectorName) {
 			return;
 		}
 
 		var selectedNodes = $scope.chartViewModel.getSelectedNodes();
 		for (var i = 0; i < selectedNodes.length; ++i) {
 			var node = selectedNodes[i];
-			node.addInputTerminal({
-				name: terminalName,
+			node.addInputConnector({
+				name: connectorName,
 			});
 		}
 	};
 
 	//
-	// Add an output terminal to selected nodes.
+	// Add an output connector to selected nodes.
 	//
-	$scope.addNewOutputTerminal = function () {
-		var terminalName = prompt("Enter a terminal name:", "New terminal");
-		if (!terminalName) {
+	$scope.addNewOutputConnector = function () {
+		var connectorName = prompt("Enter a connector name:", "New connector");
+		if (!connectorName) {
 			return;
 		}
 
 		var selectedNodes = $scope.chartViewModel.getSelectedNodes();
 		for (var i = 0; i < selectedNodes.length; ++i) {
 			var node = selectedNodes[i];
-			node.addOutputTerminal({
-				name: terminalName,
+			node.addOutputConnector({
+				name: connectorName,
 			});
 		}
 	};

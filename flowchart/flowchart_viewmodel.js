@@ -28,63 +28,63 @@ var flowchart = {
 	flowchart.nodeNameHeight = 40;
 
 	//
-	// Height of a terminal in a node.
+	// Height of a connector in a node.
 	//
-	flowchart.terminalHeight = 20; //flowchart.connectorHeight = 20; //35;
+	flowchart.connectorHeight = 20; //35;
 
 	//
-	// Compute the Y coordinate of a terminal, given its index.
+	// Compute the Y coordinate of a connector, given its index.
 	//
-	flowchart.computeTerminalY = function (terminalIndex) {
-		return flowchart.nodeNameHeight + (terminalIndex * flowchart.terminalHeight);
+	flowchart.computeConnectorY = function (connectorIndex) {
+		return flowchart.nodeNameHeight + (connectorIndex * flowchart.connectorHeight);
 	}
 
 	//
-	// Compute the position of a terminal in the graph.
+	// Compute the position of a connector in the graph.
 	//
-	flowchart.computeTerminalPos = function (node, terminalIndex, inputTerminal) {
+	flowchart.computeConnectorPos = function (node, connectorIndex, inputConnector) {
 		return {
-			x: node.x() + (inputTerminal ? 0 : node.width ? node.width : flowchart.defaultNodeWidth),
-			y: node.y() + flowchart.computeTerminalY(terminalIndex),
+			x: node.x() + (inputConnector ? 0 : node.width ? node.width : flowchart.defaultNodeWidth),
+			y: node.y() + flowchart.computeConnectorY(connectorIndex),
 		};
 	};
 
 
 	// ------------------------------------------------------------
 	//
-	// View model for a terminal. (nee connector)
+	// View model for a connector.
 	//
-	flowchart.TerminalViewModel = function (terminalDataModel, x, y, parentNode) {
+	flowchart.ConnectorViewModel = function (connectorDataModel, x, y, parentNode) {
 
-		this.data = terminalDataModel;
+		this.data = connectorDataModel;
 		this._parentNode = parentNode;
 		this._x = x;
 		this._y = y;
 
-		// The name of the terminal.
+		// The name of the connector.
 		this.name = function () { return this.data.name; }
 
-		// X coordinate of the terminal.
+		// X coordinate of the connector.
 		this.x = function () { return this._x; };
 
-		// Y coordinate of the terminal.
+		// Y coordinate of the connector.
 		this.y = function () { return this._y; };
 
-		// The parent node that the terminal is attached to.
+		// The parent node that the connector is attached to.
 		this.parentNode = function () {	return this._parentNode; };
 	};
 
 	//
 	// Create view model for a list of data models.
 	//
-	var createTerminalsViewModel = function (terminalDataModels, x, parentNode) {
+	var createConnectorsViewModel = function (connectorDataModels, x, parentNode) {
 		var viewModels = [];
 
-		if (terminalDataModels) {
-			for (var i = 0; i < terminalDataModels.length; ++i) {
-				var terminalViewModel = 
-					new flowchart.TerminalViewModel(terminalDataModels[i], x, flowchart.computeTerminalY(i), parentNode);
-				viewModels.push(terminalViewModel);
+		if (connectorDataModels) {
+			for (var i = 0; i < connectorDataModels.length; ++i) {
+				var connectorViewModel = 
+					new flowchart.ConnectorViewModel(connectorDataModels[i], x, flowchart.computeConnectorY(i), parentNode);
+				viewModels.push(connectorViewModel);
 			}
 		}
 
@@ -114,7 +114,7 @@ var flowchart = {
 		//
 		//
 		//
-
+		
 
 		this.data = nodeDataModel;
 
@@ -122,14 +122,15 @@ var flowchart = {
 		if (!this.data.width || this.data.width < 0) {
 			this.data.width = flowchart.defaultNodeWidth;
 		}
-		this.inputTerminals = createTerminalsViewModel(this.data.inputTerminals, 0, this);
-		this.outputTerminals = createTerminalsViewModel(this.data.outputTerminals, this.data.width, this);
+		this.inputConnectors = createConnectorsViewModel(this.data.inputConnectors, 0, this);
+		this.outputConnectors = createConnectorsViewModel(this.data.outputConnectors, this.data.width, this);
 
 		// Set to true when the node is selected.
 		this._selected = false;
 
-
+		//
 		// Name of the node.
+		//
 		this.name = function () { return this.data.name || ""; };
 
 		// X coordinate of the node.
@@ -145,11 +146,11 @@ var flowchart = {
 		// Height of the node.
 		//
 		this.height = function () {
-			var numTerminals =
+			var numConnectors =
 				Math.max(
-					this.inputTerminals.length, 
-					this.outputTerminals.length);
-			return flowchart.computeTerminalY(numTerminals);
+					this.inputConnectors.length, 
+					this.outputConnectors.length);
+			return flowchart.computeConnectorY(numConnectors);
 		}
 
 		// Select the node.
@@ -167,36 +168,36 @@ var flowchart = {
 		this.selected = function () { return this._selected; };
 
 		//
-		// Internal function to add a terminal.
-		this._addTerminal = function (terminalDataModel, x, terminalsDataModel, terminalsViewModel) {
-			var terminalViewModel = 
-				new flowchart.TerminalViewModel(terminalDataModel, x, 
-						flowchart.computeTerminalY(terminalsViewModel.length), this);
+		// Internal function to add a connector.
+		this._addConnector = function (connectorDataModel, x, connectorsDataModel, connectorsViewModel) {
+			var connectorViewModel = 
+				new flowchart.ConnectorViewModel(connectorDataModel, x, 
+						flowchart.computeConnectorY(connectorsViewModel.length), this);
 
-			terminalsDataModel.push(terminalDataModel);
+			connectorsDataModel.push(connectorDataModel);
 
 			// Add to node's view model.
-			terminalsViewModel.push(terminalViewModel);
+			connectorsViewModel.push(connectorViewModel);
 		}
 
 		//
-		// Add an input terminal to the node.
-		this.addInputTerminal = function (terminalDataModel) {
+		// Add an input connector to the node.
+		this.addInputConnector = function (connectorDataModel) {
 
-			if (!this.data.inputTerminals) {
-				this.data.inputTerminals = [];
+			if (!this.data.inputConnectors) {
+				this.data.inputConnectors = [];
 			}
-			this._addTerminal(terminalDataModel, 0, this.data.inputTerminals, this.inputTerminals);
+			this._addConnector(connectorDataModel, 0, this.data.inputConnectors, this.inputConnectors);
 		};
 
 		//
-		// Add an ouput terminal to the node.
-		this.addOutputTerminal = function (terminalDataModel) {
+		// Add an ouput connector to the node.
+		this.addOutputConnector = function (connectorDataModel) {
 
-			if (!this.data.outputTerminals) {
-				this.data.outputTerminals = [];
+			if (!this.data.outputConnectors) {
+				this.data.outputConnectors = [];
 			}
-			this._addTerminal(terminalDataModel, this.data.width, this.data.outputTerminals, this.outputTerminals);
+			this._addConnector(connectorDataModel, this.data.width, this.data.outputConnectors, this.outputConnectors);
 		};
 	};
 
@@ -217,15 +218,15 @@ var flowchart = {
 
 	// ------------------------------------------------------------
 	//
-	// View model for a wire (nee connection).
+	// View model for a connection.
 	//
-	flowchart.WireViewModel = function (wireDataModel, sourceTerminal, destTerminal) {
+	flowchart.ConnectionViewModel = function (connectionDataModel, sourceConnector, destConnector) {
 
-		this.data = wireDataModel;
-		this.source = sourceTerminal;
-		this.dest = destTerminal;
+		this.data = connectionDataModel;
+		this.source = sourceConnector;
+		this.dest = destConnector;
 
-		// Set to true when the wire is selected.
+		// Set to true when the connection is selected.
 		this._selected = false;
 
 		this.sourceCoordX = function () { 
@@ -244,11 +245,11 @@ var flowchart = {
 		}
 
 		this.sourceTangentX = function () { 
-			return flowchart.computeWireSourceTangentX(this.sourceCoord(), this.destCoord());
+			return flowchart.computeConnectionSourceTangentX(this.sourceCoord(), this.destCoord());
 		};
 
 		this.sourceTangentY = function () { 
-			return flowchart.computeWireSourceTangentY(this.sourceCoord(), this.destCoord());
+			return flowchart.computeConnectionSourceTangentY(this.sourceCoord(), this.destCoord());
 		};
 
 		this.destCoordX = function () { 
@@ -267,25 +268,25 @@ var flowchart = {
 		}
 
 		this.destTangentX = function () { 
-			return flowchart.computeWireDestTangentX(this.sourceCoord(), this.destCoord());
+			return flowchart.computeConnectionDestTangentX(this.sourceCoord(), this.destCoord());
 		};
 
 		this.destTangentY = function () { 
-			return flowchart.computeWireDestTangentY(this.sourceCoord(), this.destCoord());
+			return flowchart.computeConnectionDestTangentY(this.sourceCoord(), this.destCoord());
 		};
 
-		// Select the wire.
+		// Select the connection.
 		this.select = function () { this._selected = true; };
 
-		// Deselect the wire.
+		// Deselect the connection.
 		this.deselect = function () { this._selected = false; };
 
-		// Toggle the selection state of the wire.
+		// Toggle the selection state of the connection.
 		this.toggleSelected = function () {
 			this._selected = !this._selected;
 		};
 
-		// Returns true if the wire is selected.
+		// Returns true if the connection is selected.
 		this.selected = function () { return this._selected; };
 	};
 
@@ -294,49 +295,49 @@ var flowchart = {
 	//
 	// Helper function.
 	//
-	var computeWireTangentOffset = function (pt1, pt2) {
+	var computeConnectionTangentOffset = function (pt1, pt2) {
 		return (pt2.x - pt1.x) / 2;	
 	}
 
 	//
 	// Compute the tangent for the bezier curve.
-	flowchart.computeWireSourceTangentX = function (pt1, pt2) {
-		return pt1.x + computeWireTangentOffset(pt1, pt2);
+	flowchart.computeConnectionSourceTangentX = function (pt1, pt2) {
+		return pt1.x + computeConnectionTangentOffset(pt1, pt2);
 	};
 
 	//
 	// Compute the tangent for the bezier curve.
-	flowchart.computeWireSourceTangentY = function (pt1, pt2) {
+	flowchart.computeConnectionSourceTangentY = function (pt1, pt2) {
 		return pt1.y;
 	};
 
 	//
 	// Compute the tangent for the bezier curve.
-	flowchart.computeWireSourceTangent = function(pt1, pt2) {
+	flowchart.computeConnectionSourceTangent = function(pt1, pt2) {
 		return {
-			x: flowchart.computeWireSourceTangentX(pt1, pt2),
-			y: flowchart.computeWireSourceTangentY(pt1, pt2),
+			x: flowchart.computeConnectionSourceTangentX(pt1, pt2),
+			y: flowchart.computeConnectionSourceTangentY(pt1, pt2),
 		};
 	};
 
 	//
 	// Compute the tangent for the bezier curve.
-	flowchart.computeWireDestTangentX = function (pt1, pt2) {
-		return pt2.x - computeWireTangentOffset(pt1, pt2);
+	flowchart.computeConnectionDestTangentX = function (pt1, pt2) {
+		return pt2.x - computeConnectionTangentOffset(pt1, pt2);
 	};
 
 	//
 	// Compute the tangent for the bezier curve.
-	flowchart.computeWireDestTangentY = function (pt1, pt2) {
+	flowchart.computeConnectionDestTangentY = function (pt1, pt2) {
 		return pt2.y;
 	};
 
 	//
 	// Compute the tangent for the bezier curve.
-	flowchart.computeWireDestTangent = function(pt1, pt2) {
+	flowchart.computeConnectionDestTangent = function(pt1, pt2) {
 		return {
-			x: flowchart.computeWireDestTangentX(pt1, pt2),
-			y: flowchart.computeWireDestTangentY(pt1, pt2),
+			x: flowchart.computeConnectionDestTangentX(pt1, pt2),
+			y: flowchart.computeConnectionDestTangentY(pt1, pt2),
 		};
 	};
 
@@ -363,57 +364,57 @@ var flowchart = {
 		};
 
 		//
-		// Find a specific input terminal within the chart.
+		// Find a specific input connector within the chart.
 		//
-		this.findInputTerminal = function (nodeID, terminalIndex) {
+		this.findInputConnector = function (nodeID, connectorIndex) {
 
 			var node = this.findNode(nodeID);
 
-			if (!node.inputTerminals || node.inputTerminals.length <= terminalIndex) {
-				throw new Error("Node " + nodeID + " has invalid input terminals.");
+			if (!node.inputConnectors || node.inputConnectors.length <= connectorIndex) {
+				throw new Error("Node " + nodeID + " has invalid input connectors.");
 			}
 
-			return node.inputTerminals[terminalIndex];
+			return node.inputConnectors[connectorIndex];
 		};
 
 		//
-		// Find a specific output terminal within the chart.
+		// Find a specific output connector within the chart.
 		//
-		this.findOutputTerminal = function (nodeID, terminalIndex) {
+		this.findOutputConnector = function (nodeID, connectorIndex) {
 
 			var node = this.findNode(nodeID);
 
-			if (!node.outputTerminals || node.outputTerminals.length <= terminalIndex) {
-				throw new Error("Node " + nodeID + " has invalid output terminals.");
+			if (!node.outputConnectors || node.outputConnectors.length <= connectorIndex) {
+				throw new Error("Node " + nodeID + " has invalid output connectors.");
 			}
 
-			return node.outputTerminals[terminalIndex];
+			return node.outputConnectors[connectorIndex];
 		};
 
 		//
-		// Create a view model for wire from the data model.
+		// Create a view model for connection from the data model.
 		//
-		this._createWireViewModel = function(wireDataModel) {
+		this._createConnectionViewModel = function(connectionDataModel) {
 
-			var sourceTerminal = this.findOutputTerminal(wireDataModel.source.nodeID, wireDataModel.source.terminalIndex);
-			var destTerminal = this.findInputTerminal(wireDataModel.dest.nodeID, wireDataModel.dest.terminalIndex);			
-			return new flowchart.WireViewModel(wireDataModel, sourceTerminal, destTerminal);
+			var sourceConnector = this.findOutputConnector(connectionDataModel.source.nodeID, connectionDataModel.source.connectorIndex);
+			var destConnector = this.findInputConnector(connectionDataModel.dest.nodeID, connectionDataModel.dest.connectorIndex);			
+			return new flowchart.ConnectionViewModel(connectionDataModel, sourceConnector, destConnector);
 		}
 
 		// 
-		// Wrap the wires data-model in a view-model.
+		// Wrap the connections data-model in a view-model.
 		//
-		this._createWiresViewModel = function (wiresDataModel) {
+		this._createConnectionsViewModel = function (connectionsDataModel) {
 
-			var wiresViewModel = [];
+			var connectionsViewModel = [];
 
-			if (wiresDataModel) {
-				for (var i = 0; i < wiresDataModel.length; ++i) {
-					wiresViewModel.push(this._createWireViewModel(wiresDataModel[i]));
+			if (connectionsDataModel) {
+				for (var i = 0; i < connectionsDataModel.length; ++i) {
+					connectionsViewModel.push(this._createConnectionViewModel(connectionsDataModel[i]));
 				}
 			}
 
-			return wiresViewModel;
+			return connectionsViewModel;
 		};
 
 		// Reference to the underlying data.
@@ -422,75 +423,75 @@ var flowchart = {
 		// Create a view-model for nodes.
 		this.nodes = createNodesViewModel(this.data.nodes);
 
-		// Create a view-model for wires.
-		this.wires = this._createWiresViewModel(this.data.wires);
+		// Create a view-model for connections.
+		this.connections = this._createConnectionsViewModel(this.data.connections);
 
 		//
-		// Create a view model for a new wire.
+		// Create a view model for a new connection.
 		//
-		this.createNewWire = function (startTerminal, endTerminal) {
+		this.createNewConnection = function (startConnector, endConnector) {
 
-			var wiresDataModel = this.data.wires;
-			if (!wiresDataModel) {
-				wiresDataModel = this.data.wires = [];
+			var connectionsDataModel = this.data.connections;
+			if (!connectionsDataModel) {
+				connectionsDataModel = this.data.connections = [];
 			}
 
-			var wiresViewModel = this.wires;
-			if (!wiresViewModel) {
-				wiresViewModel = this.wires = [];
+			var connectionsViewModel = this.connections;
+			if (!connectionsViewModel) {
+				connectionsViewModel = this.connections = [];
 			}
 
-			var startNode = startTerminal.parentNode();
-			var startTerminalIndex = startNode.outputTerminals.indexOf(startTerminal);
-			var startTerminalType = 'output';
-			if (startTerminalIndex == -1) {
-				startTerminalIndex = startNode.inputTerminals.indexOf(startTerminal);
-				startTerminalType = 'input';
-				if (startTerminalIndex == -1) {
-					throw new Error("Failed to find source terminal within either inputTerminals or outputTerminals of source node.");
+			var startNode = startConnector.parentNode();
+			var startConnectorIndex = startNode.outputConnectors.indexOf(startConnector);
+			var startConnectorType = 'output';
+			if (startConnectorIndex == -1) {
+				startConnectorIndex = startNode.inputConnectors.indexOf(startConnector);
+				startConnectorType = 'input';
+				if (startConnectorIndex == -1) {
+					throw new Error("Failed to find source connector within either inputConnectors or outputConnectors of source node.");
 				}
 			}
 
-			var endNode = endTerminal.parentNode();
-			var endTerminalIndex = endNode.inputTerminals.indexOf(endTerminal);
-			var endTerminalType = 'input';
-			if (endTerminalIndex == -1) {
-				endTerminalIndex = endNode.outputTerminals.indexOf(endTerminal);
-				endTerminalType = 'output';
-				if (endTerminalIndex == -1) {
-					throw new Error("Failed to find dest terminal within inputTerminals or outputTerminals of dest node.");
+			var endNode = endConnector.parentNode();
+			var endConnectorIndex = endNode.inputConnectors.indexOf(endConnector);
+			var endConnectorType = 'input';
+			if (endConnectorIndex == -1) {
+				endConnectorIndex = endNode.outputConnectors.indexOf(endConnector);
+				endConnectorType = 'output';
+				if (endConnectorIndex == -1) {
+					throw new Error("Failed to find dest connector within inputConnectors or outputConnectors of dest node.");
 				}
 			}
 
-			if (startTerminalType == endTerminalType) {
-				throw new Error("Failed to create wire. Only output to input wires are allowed.")
+			if (startConnectorType == endConnectorType) {
+				throw new Error("Failed to create connection. Only output to input connections are allowed.")
 			}
 
 			if (startNode == endNode) {
-				throw new Error("Failed to create wire. Cannot link a node with itself.")
+				throw new Error("Failed to create connection. Cannot link a node with itself.")
 			}
 
 			var startNode = {
 				nodeID: startNode.data.id,
-				terminalIndex: startTerminalIndex,
+				connectorIndex: startConnectorIndex,
 			}
 
 			var endNode = {
 				nodeID: endNode.data.id,
-				terminalIndex: endTerminalIndex,
+				connectorIndex: endConnectorIndex,
 			}
 
-			var wireDataModel = {
-				source: startTerminalType == 'output' ? startNode : endNode,
-				dest: startTerminalType == 'output' ? endNode : startNode,
+			var connectionDataModel = {
+				source: startConnectorType == 'output' ? startNode : endNode,
+				dest: startConnectorType == 'output' ? endNode : startNode,
 			};
-			wiresDataModel.push(wireDataModel);
+			connectionsDataModel.push(connectionDataModel);
 
-			var outputTerminal = startTerminalType == 'output' ? startTerminal : endTerminal;
-			var inputTerminal = startTerminalType == 'output' ? endTerminal : startTerminal;
+			var outputConnector = startConnectorType == 'output' ? startConnector : endConnector;
+			var inputConnector = startConnectorType == 'output' ? endConnector : startConnector;
 
-			var wireViewModel = new flowchart.WireViewModel(wireDataModel, outputTerminal, inputTerminal);
-			wiresViewModel.push(wireViewModel);
+			var connectionViewModel = new flowchart.ConnectionViewModel(connectionDataModel, outputConnector, inputConnector);
+			connectionsViewModel.push(connectionViewModel);
 		};
 
 		//
@@ -509,7 +510,7 @@ var flowchart = {
 		}
 
 		//
-		// Select all nodes and wires in the chart.
+		// Select all nodes and connections in the chart.
 		this.selectAll = function () {
 
 			var nodes = this.nodes;
@@ -518,15 +519,15 @@ var flowchart = {
 				node.select();
 			}
 
-			var wires = this.wires;
-			for (var i = 0; i < wires.length; ++i) {
-				var wire = wires[i];
-				wire.select();
+			var connections = this.connections;
+			for (var i = 0; i < connections.length; ++i) {
+				var connection = connections[i];
+				connection.select();
 			}			
 		}
 
 		//
-		// Deselect all nodes and wires in the chart.
+		// Deselect all nodes and connections in the chart.
 		this.deselectAll = function () {
 
 			var nodes = this.nodes;
@@ -535,15 +536,15 @@ var flowchart = {
 				node.deselect();
 			}
 
-			var wires = this.wires;
-			for (var i = 0; i < wires.length; ++i) {
-				var wire = wires[i];
-				wire.deselect();
+			var connections = this.connections;
+			for (var i = 0; i < connections.length; ++i) {
+				var connection = connections[i];
+				connection.deselect();
 			}
 		};
 
 		//
-		// Update the location of the node and its terminals.
+		// Update the location of the node and its connectors.
 		//
 		this.updateSelectedNodesLocation = function (deltaX, deltaY) {
 
@@ -581,21 +582,21 @@ var flowchart = {
 		};
 
 		//
-		// Handle mouse down on a wire.
+		// Handle mouse down on a connection.
 		//
-		this.handleWireMouseDown = function (wire, ctrlKey) {
+		this.handleConnectionMouseDown = function (connection, ctrlKey) {
 
 			if (ctrlKey) {
-				wire.toggleSelected();
+				connection.toggleSelected();
 			}
 			else {
 				this.deselectAll();
-				wire.select();
+				connection.select();
 			}
 		};
 
 		//
-		// Delete all nodes and wires that are selected.
+		// Delete all nodes and connections that are selected.
 		//
 		this.deleteSelected = function () {
 
@@ -617,46 +618,46 @@ var flowchart = {
 					newNodeDataModels.push(node.data);
 				}
 				else {
-					// Keep track of nodes that were deleted, so their wires can also
+					// Keep track of nodes that were deleted, so their connections can also
 					// be deleted.
 					deletedNodeIds.push(node.data.id);
 				}
 			}
 
-			var newWireViewModels = [];
-			var newWireDataModels = [];
+			var newConnectionViewModels = [];
+			var newConnectionDataModels = [];
 
 			//
-			// Remove wires that are selected.
-			// Also remove wires for nodes that have been deleted.
+			// Remove connections that are selected.
+			// Also remove connections for nodes that have been deleted.
 			//
-			for (var wireIndex = 0; wireIndex < this.wires.length; ++wireIndex) {
+			for (var connectionIndex = 0; connectionIndex < this.connections.length; ++connectionIndex) {
 
-				var wire = this.wires[wireIndex];				
-				if (!wire.selected() &&
-					deletedNodeIds.indexOf(wire.data.source.nodeID) === -1 &&
-					deletedNodeIds.indexOf(wire.data.dest.nodeID) === -1)
+				var connection = this.connections[connectionIndex];				
+				if (!connection.selected() &&
+					deletedNodeIds.indexOf(connection.data.source.nodeID) === -1 &&
+					deletedNodeIds.indexOf(connection.data.dest.nodeID) === -1)
 				{
 					//
-					// The nodes this wire is attached to, where not deleted,
-					// so keep the wire.
+					// The nodes this connection is attached to, where not deleted,
+					// so keep the connection.
 					//
-					newWireViewModels.push(wire);
-					newWireDataModels.push(wire.data);
+					newConnectionViewModels.push(connection);
+					newConnectionDataModels.push(connection.data);
 				}
 			}
 
 			//
-			// Update nodes and wires.
+			// Update nodes and connections.
 			//
 			this.nodes = newNodeViewModels;
 			this.data.nodes = newNodeDataModels;
-			this.wires = newWireViewModels;
-			this.data.wires = newWireDataModels;
+			this.connections = newConnectionViewModels;
+			this.data.connections = newConnectionDataModels;
 		};
 
 		//
-		// Select nodes and wires that fall within the selection rect.
+		// Select nodes and connections that fall within the selection rect.
 		//
 		this.applySelectionRect = function (selectionRect) {
 
@@ -674,13 +675,13 @@ var flowchart = {
 				}
 			}
 
-			for (var i = 0; i < this.wires.length; ++i) {
-				var wire = this.wires[i];
-				if (wire.source.parentNode().selected() &&
-					wire.dest.parentNode().selected())
+			for (var i = 0; i < this.connections.length; ++i) {
+				var connection = this.connections[i];
+				if (connection.source.parentNode().selected() &&
+					connection.dest.parentNode().selected())
 				{
-					// Select the wire if both its parent nodes are selected.
-					wire.select();
+					// Select the connection if both its parent nodes are selected.
+					connection.select();
 				}
 			}
 
@@ -703,19 +704,19 @@ var flowchart = {
 		};
 
 		//
-		// Get the array of wires that are currently selected.
+		// Get the array of connections that are currently selected.
 		//
-		this.getSelectedWires = function () {
-			var selectedWires = [];
+		this.getSelectedConnections = function () {
+			var selectedConnections = [];
 
-			for (var i = 0; i < this.wires.length; ++i) {
-				var wire = this.wires[i];
-				if (wire.selected()) {
-					selectedWires.push(wire);
+			for (var i = 0; i < this.connections.length; ++i) {
+				var connection = this.connections[i];
+				if (connection.selected()) {
+					selectedConnections.push(connection);
 				}
 			}
 
-			return selectedWires;
+			return selectedConnections;
 		};
 		
 

@@ -9,7 +9,7 @@ var initialChartLayout = {
             "x": 272,
             "y": 18,
             "width": 150,
-            "inputTerminals": [
+            "inputConnectors": [
                 {
                     "name": "1A"
                 },
@@ -32,7 +32,7 @@ var initialChartLayout = {
                     "name": "GND"
                 }
             ],
-            "outputTerminals": [
+            "outputConnectors": [
                 {
                     "name": "Vcc"
                 },
@@ -62,7 +62,7 @@ var initialChartLayout = {
             "x": 64,
             "y": 562,
             "width": 150,
-            "inputTerminals": [
+            "inputConnectors": [
                 {
                     "name": "1A"
                 },
@@ -85,7 +85,7 @@ var initialChartLayout = {
                     "name": "GND"
                 }
             ],
-            "outputTerminals": [
+            "outputConnectors": [
                 {
                     "name": "Vcc"
                 },
@@ -115,7 +115,7 @@ var initialChartLayout = {
             "x": 457,
             "y": 379,
             "width": 150,
-            "inputTerminals": [
+            "inputConnectors": [
                 {
                     "name": "CLR"
                 },
@@ -141,7 +141,7 @@ var initialChartLayout = {
                     "name": "GND"
                 }
             ],
-            "outputTerminals": [
+            "outputConnectors": [
                 {
                     "name": "Vcc"
                 },
@@ -173,7 +173,7 @@ var initialChartLayout = {
             "id": 10,
             "x": 272,
             "y": 319,
-            "inputTerminals": [
+            "inputConnectors": [
                 {
                     "name": "1Y"
                 },
@@ -196,7 +196,7 @@ var initialChartLayout = {
                     "name": "GND"
                 }
             ],
-            "outputTerminals": [
+            "outputConnectors": [
                 {
                     "name": "Vcc"
                 },
@@ -226,7 +226,7 @@ var initialChartLayout = {
             "id": 11,
             "x": 22,
             "y": 9,
-            "inputTerminals": [
+            "inputConnectors": [
                 {
                     "name": "1-Off"
                 },
@@ -264,7 +264,7 @@ var initialChartLayout = {
                     "name": "12-Off"
                 }
             ],
-            "outputTerminals": [
+            "outputConnectors": [
                 {
                     "name": "1-ON"
                 },
@@ -309,7 +309,7 @@ var initialChartLayout = {
             "id": 11,
             "x": 648,
             "y": 336,
-            "inputTerminals": [
+            "inputConnectors": [
                 {
                     "name": "1-LED"
                 },
@@ -347,27 +347,108 @@ var initialChartLayout = {
                     "name": "12-LED"
                 }
             ],
-            "outputTerminals": [],
+            "outputConnectors": [],
             "width": 120
         }
     ],
-    "wires": [
+    "connections": [
         {
             "source": {
                 "nodeID": 2,
-                "terminalIndex": 6
+                "connectorIndex": 6
             },
             "dest": {
                 "nodeID": 1,
-                "terminalIndex": 7
+                "connectorIndex": 7
             }
         }
     ]
 };
 
+/*var initialChartLayout = {
 
-// inputTerminals --> leftPorts
-// outputTerminals --> rightPorts
+	nodes: [
+		{
+			name: "Example Node 1",
+			id: 0,
+			x: 0,
+			y: 0,
+			width: 350,
+			inputConnectors: [
+				{
+					name: "A",
+				},
+				{
+					name: "B",
+				},
+				{
+					name: "C",
+				},
+			],
+			outputConnectors: [
+				{
+					name: "A",
+				},
+				{
+					name: "B",
+				},
+				{
+					name: "C",
+				},
+			],
+		},
+
+		{
+			name: "Example Node 2",
+			id: 1,
+			x: 400,
+			y: 200,
+			inputConnectors: [
+				{
+					name: "A",
+				},
+				{
+					name: "B",
+				},
+				{
+					name: "C",
+				},
+			],
+			outputConnectors: [
+				{
+					name: "A",
+				},
+				{
+					name: "B",
+				},
+				{
+					name: "C",
+				},
+			],
+		},
+
+	],
+
+	connections: [
+		{
+			source: {
+				nodeID: 0,
+				connectorIndex: 1,
+			},
+
+			dest: {
+				nodeID: 1,
+				connectorIndex: 2,
+			},
+		},
+
+
+	]
+};*/
+
+
+// inputConnectors --> leftPorts
+// outputConnectors --> rightPorts
 // chip_LED
 // chip_AND
 // chip_switch chip_SWITCH
