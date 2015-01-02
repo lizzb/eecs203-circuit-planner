@@ -300,10 +300,8 @@ angular.module('flowChart', ['dragging'] )
 
 				lastMouseCoords = controller.translateCoordinates(x, y, evt);
 
-				//
 				// If nothing is selected when dragging starts, 
 				// at least select the node we are dragging.
-				//
 				if (!node.selected()) {
 					chart.deselectAll();
 					node.select();
@@ -364,6 +362,18 @@ angular.module('flowChart', ['dragging'] )
 
 				var curCoords = controller.translateCoordinates(x, y, evt);
 
+
+				//
+				//
+				//
+				//
+				//
+				$scope.dragPointR = "4";
+				//
+				//
+				//
+				//
+				//
 				$scope.draggingConnection = true;
 				$scope.dragPoint1 = flowchart.computeConnectorPos(node, connectorIndex, isInputConnector);
 				$scope.dragPoint2 = {

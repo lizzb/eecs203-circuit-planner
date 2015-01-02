@@ -9,6 +9,14 @@ var flowchart = {
 // Module.
 (function () {
 
+/*
+	// vertical placement/Y value of node name label
+	flowchart.defaultLabelHeight = function() { return 25;}
+
+	// horizontal offset to add to label x position
+	flowchart.defaultLabelOffset = function() { return 20;}
+
+*/
 	//
 	// Width of a node.
 	//
@@ -89,6 +97,19 @@ var flowchart = {
 	// View model for a node.
 	//
 	flowchart.NodeViewModel = function (nodeDataModel) {
+
+
+
+		// vertical placement/Y value of node name label
+		this.defaultLabelHeight = function () { return 25; };
+
+		// horizontal offset to add to label x position
+		this.defaultLabelOffset = function() { return 20; };
+
+		this.cornerRad = function() { return 10; };
+
+
+
 
 		this.data = nodeDataModel;
 
