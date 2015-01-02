@@ -19,17 +19,14 @@ var flowchart = {
 */
 	//
 	// Width of a node.
-	//
 	flowchart.defaultNodeWidth = 150; // 250
 
 	//
 	// Amount of space reserved for displaying the node's name.
-	//
 	flowchart.nodeNameHeight = 40;
 
 	//
 	// Height of a terminal in a node.
-	//
 	flowchart.terminalHeight = 20; //35;
 
 	//
@@ -128,9 +125,7 @@ var flowchart = {
 		// Set to true when the node is selected.
 		this._selected = false;
 
-		//
 		// Name of the node.
-		//
 		this.name = function () { return this.data.name || ""; };
 
 		// X coordinate of the node.
@@ -142,9 +137,7 @@ var flowchart = {
 		// Width of the node.
 		this.width = function () { return this.data.width; }
 
-		//
 		// Height of the node.
-		//
 		this.height = function () {
 			var numTerminals =
 				Math.max(
@@ -225,6 +218,11 @@ var flowchart = {
 		this.data = wireDataModel;
 		this.source = sourceTerminal;
 		this.dest = destTerminal;
+
+		//
+		//
+		//
+		this.color = function () {return this.data.color || "";};
 
 		// Set to true when the wire is selected.
 		this._selected = false;

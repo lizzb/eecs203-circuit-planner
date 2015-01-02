@@ -30,7 +30,7 @@ Styles for labels on nodes
 
 .node-label { text-anchor: middle; }
 .input-label { text-anchor: start; } /* left */
-.output-label { text-anchor: end; }
+.output-label { text-anchor: end; } /* NOT right */
 
 
 
@@ -83,9 +83,12 @@ Style for wires.
 .wire {
 }
 
+/*.teal-wire {
+	stroke: teal;
+}*/
 .wire,
 .wire-line {
-	stroke: gray;
+	stroke: gray !important;
 	stroke-width: 4;
 	fill: transparent;
 }	

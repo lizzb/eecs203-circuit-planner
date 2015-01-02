@@ -111,6 +111,7 @@ var initialChartLayout = {
         "id": 11,
         "x": 22,
         "y": 9,
+        "width": 120,
         "inputTerminals": [
             {   "name": "1-Off"    },
             {   "name": "2-Off"    },
@@ -141,13 +142,13 @@ var initialChartLayout = {
             {   "name": "12-ON"
             }
         ],
-        "width": 120
     },
     {
         "name": "Switch",
         "id": 11,
         "x": 648,
         "y": 336,
+        "width": 120,
         "inputTerminals": [
             {   "name": "1-LED"     },
             {   "name": "2-LED"     },
@@ -164,18 +165,19 @@ var initialChartLayout = {
             }
         ],
         "outputTerminals": [],
-        "width": 120
     }
     ],
     "wires": [
-        {
-            "source": {
-                "nodeID": 2,
-                "terminalIndex": 6    },
-            "dest": {
-                "nodeID": 1,
-                "terminalIndex": 7
-            }
+    {
+        "color": "teal", //"teal-wire",
+        "source": {
+            "nodeID": 2,
+            "terminalIndex": 6
+        },
+        "dest": {
+            "nodeID": 1,
+            "terminalIndex": 7
+        },
         }
     ]
 };

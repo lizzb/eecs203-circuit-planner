@@ -86,6 +86,7 @@
 
 
   <g>
+  <!--ng-attr-class="{{wire.color}}"-->
     <g
       class="wire"
       ng-repeat="wire in chart.wires"
@@ -96,8 +97,7 @@
                      C {{wire.sourceTangentX()}}, {{wire.sourceTangentY()}}
                        {{wire.destTangentX()}}, {{wire.destTangentY()}}
                        {{wire.destCoordX()}}, {{wire.destCoordY()}}"
-          >
-        </path>
+          ng-attr-style="stroke: {{wire.color()}};"/>
         <circle
             ng-attr-class="{{wire.selected() && 'selected-wire-endpoint' || (wire == mouseOverWire && 'mouseover-wire-endpoint' || 'wire-endpoint')}}"
             ng-attr-r="{{wireEndpointR}}"

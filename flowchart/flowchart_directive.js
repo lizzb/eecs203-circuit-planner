@@ -15,12 +15,10 @@ angular.module('flowChart', ['dragging'] )
   		chart: "=chart",
   	},
 
-  	//
   	// Controller for the flowchart directive.
   	// Having a separate controller is better for unit testing, otherwise
   	// it is painful to unit test a directive without instantiating the DOM 
   	// (which is possible, just not ideal).
-  	//
   	controller: 'FlowChartController',
   };
 })
@@ -53,10 +51,8 @@ angular.module('flowChart', ['dragging'] )
 			// and update the textarea whenever necessary.
 			scope.$watch("viewModel.data", updateJson, true);
 
-			//
-			// Handle the change event from the textarea and update the data model
-			// from the modified json.
-			//
+			// Handle the change event from the textarea and
+			// update the data model from the modified json.
 			$(elem).bind("input propertychange", function () {
 				var json = $(elem).val();
 				var dataModel = JSON.parse(json);
@@ -79,24 +75,21 @@ angular.module('flowChart', ['dragging'] )
 
 	var controller = this;
 
-	//
-	// Reference to the document and jQuery, can be overridden for testting.
-	//
+	// Reference to the document and jQuery,
+	// can be overridden for testing.
 	this.document = document;
 
-	//
 	// Wrap jQuery so it can easily be  mocked for testing.
-	//
 	this.jQuery = function (element) {
 		return $(element);
 	}
 
-	//
+
 	// Init data-model variables.
-	//
 	$scope.draggingWire = false;
 	$scope.terminalSize = 10;
 	$scope.dragSelecting = false;
+
 	/* Can use this to test the drag selection rect.
 	$scope.dragSelectionRect = {
 		x: 0,
@@ -106,18 +99,18 @@ angular.module('flowChart', ['dragging'] )
 	};
 	*/
 
-	//
-	// Reference to the wire, terminal or node that the mouse is currently over.
-	//
+
+	// Reference to the wire, terminal or node
+	// that the mouse is currently over.
 	$scope.mouseOverTerminal = null;
 	$scope.mouseOverWire = null;
 	$scope.mouseOverNode = null;
 
 	//
-	// The class for wires and terminals.
+	// The classes for wires and terminals.
 	//
-	this.wireClass = 'wire'; // wire --> wire
-	this.terminalClass = 'terminal'; // terminal --> port
+	this.wireClass = 'wire'; // connection --> wire
+	this.terminalClass = 'terminal'; // connector --> terminal/port/pin?
 	this.nodeClass = 'node';
 
 	//
@@ -125,59 +118,46 @@ angular.module('flowChart', ['dragging'] )
 	//
 	this.searchUp = function (element, parentClass) {
 
-		//
 		// Reached the root.
-		//
 		if (element == null || element.length == 0) {
 			return null;
 		}
 
-		// 
-		// Check if the element has the class that identifies it as a terminal.
-		//
+		// Check if the element has the class
+		// that identifies it as a terminal
 		if (hasClassSVG(element, parentClass)) {
-			//
 			// Found the terminal element.
-			//
 			return element;
 		}
 
-		//
 		// Recursively search parent elements.
-		//
 		return this.searchUp(element.parent(), parentClass);
 	};
 
-	//
-	// Hit test and retreive node and terminal that was hit at the specified coordinates.
-	//
+
+	// Hit test and retreive node and terminal that was hit
+	// at the specified coordinates.
 	this.hitTest = function (clientX, clientY) {
 
-		//
 		// Retreive the element the mouse is currently over.
-		//
 		return this.document.elementFromPoint(clientX, clientY);
 	};
 
-	//
-	// Hit test and retreive node and terminal that was hit at the specified coordinates.
-	//
+
+	// Hit test and retreive node and terminal
+	// that was hit at the specified coordinates.
 	this.checkForHit = function (mouseOverElement, whichClass) {
 
-		//
 		// Find the parent element, if any, that is a terminal.
-		//
 		var hoverElement = this.searchUp(this.jQuery(mouseOverElement), whichClass);
 		if (!hoverElement) {
 			return null;
 		}
-
 		return hoverElement.scope();
 	};
 
-	//
-	// Translate the coordinates so they are relative to the svg element.
-	//
+	// Translate the coordinates
+	// so they are relative to the svg element.
 	this.translateCoordinates = function(x, y, evt) {
 		var svg_elem =  $element.get(0);
 		var matrix = svg_elem.getScreenCTM();
@@ -196,9 +176,8 @@ angular.module('flowChart', ['dragging'] )
 
 		dragging.startDrag(evt, {
 
-			//
-			// Commence dragging... setup variables to display the drag selection rect.
-			//
+			// Commence dragging... 
+			// setup variables to display the drag selection rect.
 			dragStarted: function (x, y) {
 				$scope.dragSelecting = true;
 				var startPoint = controller.translateCoordinates(x, y, evt);
@@ -227,8 +206,8 @@ angular.module('flowChart', ['dragging'] )
 			},
 
 			//
-			// Dragging has ended... select all that are within the drag selection rect.
-			//
+			// Dragging has ended... 
+			// select all that are within the drag selection rect.
 			dragEnded: function () {
 				$scope.dragSelecting = false;
 				$scope.chart.applySelectionRect($scope.dragSelectionRect);
@@ -243,9 +222,7 @@ angular.module('flowChart', ['dragging'] )
 	//
 	$scope.mouseMove = function (evt) {
 
-		//
 		// Clear out all cached mouse over elements.
-		//
 		$scope.mouseOverWire = null;
 		$scope.mouseOverTerminal = null;
 		$scope.mouseOverNode = null;
@@ -331,7 +308,6 @@ angular.module('flowChart', ['dragging'] )
 
 	//
 	// Handle mousedown on a wire.
-	//
 	$scope.wireMouseDown = function (evt, wire) {
 		var chart = $scope.chart;
 		chart.handleWireMouseDown(wire, evt.ctrlKey);
@@ -343,7 +319,6 @@ angular.module('flowChart', ['dragging'] )
 
 	//
 	// Handle mousedown on an input terminal.
-	//
 	$scope.terminalMouseDown = function (evt, node, terminal, terminalIndex, isInputTerminal) {
 
 		//
@@ -404,11 +379,9 @@ angular.module('flowChart', ['dragging'] )
 				if ($scope.mouseOverTerminal && 
 					$scope.mouseOverTerminal !== terminal) {
 
-					//
 					// Dragging has ended...
 					// The mouse is over a valid terminal...
 					// Create a new wire.
-					//
 					$scope.chart.createNewWire(terminal, $scope.mouseOverTerminal);
 				}
 
