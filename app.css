@@ -16,6 +16,22 @@ Generic reset.
 }
 
 
+/*
+Styles for labels on nodes
+*/
+
+.node-label, .input-label, .output-label {
+  alignment-baseline: middle;
+  font-family: Arial, Helvetica, sans-serif;
+  font-variant: small-caps;
+  font-size: 10pt;
+}
+
+.node-label { text-anchor: middle; }
+.input-label { text-anchor: start; } /* left */
+.output-label { text-anchor: end; }
+
+
 
 /*
 Styles for nodes and connectors.
@@ -38,17 +54,26 @@ Styles for nodes and connectors.
 	stroke-width: 3;
 }
 
+.terminal,
 .connector-circle {
     fill: white;
     stroke: black;
     stroke-width: 2;
 }
 
+.terminal-hover,
 .mouseover-connector-circle {
-    fill: white;
-    stroke: black;
+    /*fill: white;
+    stroke: black;*/
     stroke-width: 3;
 }
+
+/*
+
+7483 Four-bit Adder IC.
+consult the datasheet for the IC..
+you can look for a 7483 datasheet online
+*/
 
 /*
 Style for connections.
@@ -57,32 +82,38 @@ Style for connections.
 .connection {
 }
 
+.wire,
 .connection-line {
 	stroke: gray;
 	stroke-width: 4;
 	fill: transparent;
 }	
 
+.wire-hover,
 .mouseover-connection-line {
 	stroke: gray;
 	stroke-width: 6;
 	fill: transparent;
 }	
 
+.wire-selected,
 .selected-connection-line {
 	stroke: red;
 	stroke-width: 4;
 	fill: transparent;
 }	
 
+.metal-tip,
+.wiretip, .wire-tip,
 .connection-endpoint {
 	fill: gray;
 }
 
+.wiretip-selected,
 .selected-connection-endpoint {
 	fill: red;
 }	
-
+.wiretip-hover,
 .mouseover-connection-endpoint {
 	fill: gray;
 }
@@ -95,18 +126,20 @@ Style for the connection being dragged out.
 	pointer-events: none;
 }
 
+.wire-dragging,
 .dragging-connection-line {
 	stroke: gray;
 	stroke-width: 3;
 	fill: transparent;
 }	
-
+.wiretip-dragging,
 .dragging-connection-endpoint {
 	fill: gray;
 }
 
 /*
-The element (in this case the SVG element) that contains the draggable elements.
+The element (in this case the SVG element)
+that contains the draggable elements.
 */
 
 .draggable-container {

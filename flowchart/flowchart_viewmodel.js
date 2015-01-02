@@ -22,7 +22,7 @@ var flowchart = {
 	//
 	// Height of a connector in a node.
 	//
-	flowchart.connectorHeight = 35;
+	flowchart.connectorHeight = 20; //35;
 
 	//
 	// Compute the Y coordinate of a connector, given its index.
@@ -53,9 +53,7 @@ var flowchart = {
 		this._x = x;
 		this._y = y;
 
-		//
 		// The name of the connector.
-		//
 		this.name = function () { return this.data.name; }
 
 		// X coordinate of the connector.
@@ -64,9 +62,7 @@ var flowchart = {
 		// Y coordinate of the connector.
 		this.y = function () { return this._y; };
 
-		//
 		// The parent node that the connector is attached to.
-		//
 		this.parentNode = function () {	return this._parentNode; };
 	};
 
@@ -96,7 +92,7 @@ var flowchart = {
 
 		this.data = nodeDataModel;
 
-		// set the default width value of the node
+		// Set the default width value of the node
 		if (!this.data.width || this.data.width < 0) {
 			this.data.width = flowchart.defaultNodeWidth;
 		}
@@ -137,16 +133,12 @@ var flowchart = {
 		// Deselect the node.
 		this.deselect = function () { this._selected = false; };
 
-		//
 		// Toggle the selection state of the node.
-		//
 		this.toggleSelected = function () {
 			this._selected = !this._selected;
 		};
 
-		//
 		// Returns true if the node is selected.
-		//
 		this.selected = function () { return this._selected; };
 
 		//
@@ -164,7 +156,6 @@ var flowchart = {
 
 		//
 		// Add an input connector to the node.
-		//
 		this.addInputConnector = function (connectorDataModel) {
 
 			if (!this.data.inputConnectors) {
@@ -175,7 +166,6 @@ var flowchart = {
 
 		//
 		// Add an ouput connector to the node.
-		//
 		this.addOutputConnector = function (connectorDataModel) {
 
 			if (!this.data.outputConnectors) {
@@ -187,7 +177,6 @@ var flowchart = {
 
 	// 
 	// Wrap the nodes data-model in a view-model.
-	//
 	var createNodesViewModel = function (nodesDataModel) {
 		var nodesViewModel = [];
 
@@ -487,20 +476,15 @@ var flowchart = {
 				this.data.nodes = [];
 			}
 
-			// 
 			// Update the data model.
-			//
 			this.data.nodes.push(nodeDataModel);
 
-			// 
 			// Update the view model.
-			//
 			this.nodes.push(new flowchart.NodeViewModel(nodeDataModel));		
 		}
 
 		//
 		// Select all nodes and connections in the chart.
-		//
 		this.selectAll = function () {
 
 			var nodes = this.nodes;
@@ -518,7 +502,6 @@ var flowchart = {
 
 		//
 		// Deselect all nodes and connections in the chart.
-		//
 		this.deselectAll = function () {
 
 			var nodes = this.nodes;
@@ -598,10 +581,8 @@ var flowchart = {
 
 			//
 			// Sort nodes into:
-			//		nodes to keep and 
-			//		nodes to delete.
-			//
-
+			//		nodes to keep vs. nodes to delete.
+			//		
 			for (var nodeIndex = 0; nodeIndex < this.nodes.length; ++nodeIndex) {
 
 				var node = this.nodes[nodeIndex];

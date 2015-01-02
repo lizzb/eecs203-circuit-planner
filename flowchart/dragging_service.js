@@ -6,14 +6,11 @@ angular.module('dragging', ['mouseCapture', ] )
 //
 .factory('dragging', function ($rootScope, mouseCapture) {
 
-	//
 	// Threshold for dragging.
 	// When the mouse moves by at least this amount dragging starts.
-	//
 	var threshold = 5;
 
 	return {
-
 
 		//
 		// Called by users of the service to register a mousedown event and start dragging.
@@ -27,7 +24,6 @@ angular.module('dragging', ['mouseCapture', ] )
 
 			//
 			// Handler for mousemove events while the mouse is 'captured'.
-			//
 	  		var mouseMove = function (evt) {
 
 				if (!dragging) {
@@ -59,10 +55,15 @@ angular.module('dragging', ['mouseCapture', ] )
 
 	  		//
 	  		// Handler for when mouse capture is released.
-	  		//
 	  		var released = function() {
 
-	  			if (dragging) {
+	  			if(dragging && config.dragEnded)
+	  				config.dragEnded();
+
+	  			else if(!dragging && config.clicked)
+	  				config.clicked();
+
+	  			/*if (dragging) {
   					if (config.dragEnded) {
   						config.dragEnded();
   					}
@@ -71,24 +72,20 @@ angular.module('dragging', ['mouseCapture', ] )
   					if (config.clicked) {
   						config.clicked();
   					}
-	  			}
+	  			}*/
 	  		};
 
 			//
 			// Handler for mouseup event while the mouse is 'captured'.
 			// Mouseup releases the mouse capture.
-			//
 	  		var mouseUp = function (evt) {
-
 	  			mouseCapture.release();
 
 	  			evt.stopPropagation();
 	  			evt.preventDefault();
 	  		};
 
-	  		//
 	  		// Acquire the mouse capture and start handling mouse events.
-	  		//
 			mouseCapture.acquire(evt, {
 				mouseMove: mouseMove,
 				mouseUp: mouseUp,
@@ -101,7 +98,5 @@ angular.module('dragging', ['mouseCapture', ] )
 
 	};
 
-})
-
-;
+});
 
