@@ -6,8 +6,15 @@
   >
 
 <style>
+.node-label, .input-label, .output-label {
+  alignment-baseline: middle;
+}
 
+.node-label { text-anchor: middle; }
+.input-label { text-anchor: left; }
+.output-label { text-anchor: end; }
 
+/*
 .node-name {
   text-anchor: middle;
 }
@@ -26,12 +33,13 @@
 
 .node-gradient {
   fill: url(#nodeBackgroundGradient);
-}
-/*
-This value defines how the gradient is spread out through the shape. There are 3 possible values: pad, repeat, and reflect. 'pad' means that the first/last color of the gradient is padded (spread out) before and after the gradient.*/
+}*/
+
 </style>
 
   <defs>
+
+<!-- spreadMethod defines how the gradient is spread out through the shape. 3 possible values: pad, repeat, and reflect. 'pad' means that the first/last color of the gradient is padded (spread out) before and after the gradient.-->
     <linearGradient 
       spreadMethod="pad" 
       y2="0" 
@@ -72,7 +80,7 @@ This value defines how the gradient is spread out through the shape. There are 3
     </rect>
 
     <text
-      class="label node-name"
+      class="node-label"
       ng-attr-x="{{node.width()/2}}"
       y="25"
       >
@@ -85,7 +93,7 @@ This value defines how the gradient is spread out through the shape. There are 3
       class="connector input-connector"
       >
       <text
-        class="label input-connector-name"
+        class="input-label"
         ng-attr-x="{{connector.x() + 20}}"
         ng-attr-y="{{connector.y()}}"
         >
@@ -106,7 +114,7 @@ This value defines how the gradient is spread out through the shape. There are 3
       class="connector output-connector"
       >
       <text
-        class="label output-connector-name"
+        class="output-label"
         ng-attr-x="{{connector.x() - 20}}"
         ng-attr-y="{{connector.y()}}"
         >
