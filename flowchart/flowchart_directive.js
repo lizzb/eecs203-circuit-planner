@@ -340,7 +340,7 @@ angular.module('flowChart', ['dragging'] )
 				//
 				//
 				//
-				$scope.newWireColor = "lime";
+				//$scope.newWireColor = "lime";
 				$scope.wireEndpointR = "5";
 				$scope.dragPointR = "4";
 				//
@@ -370,6 +370,9 @@ angular.module('flowChart', ['dragging'] )
 				};
 				$scope.dragTangent1 = flowchart.computeWireSourceTangent($scope.dragPoint1, $scope.dragPoint2);
 				$scope.dragTangent2 = flowchart.computeWireDestTangent($scope.dragPoint1, $scope.dragPoint2);
+			
+				$scope.draggingWireColor = flowchart.defaultWireColor;
+
 			},
 
 			//

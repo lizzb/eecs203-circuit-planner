@@ -9,6 +9,9 @@ var flowchart = {
 // Module.
 (function () {
 
+	// didnt work
+	flowchart.defaultWireColor = "salmon";
+
 /*
 	// vertical placement/Y value of node name label
 	flowchart.defaultLabelHeight = function() { return 25;}
@@ -225,9 +228,10 @@ var flowchart = {
 		//
 		//
 		//
-		var defaultWireColor = "gray";
-		this.wireColor = defaultWireColor;
-		if(this.data.color) this.wireColor = this.data.color;
+		//var defaultWireColor = "gray";
+		//this.wireColor = defaultWireColor;
+		//if(this.data.color) this.wireColor = this.data.color;
+		this.wireColor = this.data.color;
 		this.color = function () { return this.wireColor; };
 		//
 		//
@@ -450,6 +454,8 @@ var flowchart = {
 		//
 		this.createNewWire = function (startTerminal, endTerminal) {
 
+			var defaultWireColor = "cyan";
+
 			var wiresDataModel = this.data.wires;
 			if (!wiresDataModel) {
 				wiresDataModel = this.data.wires = [];
@@ -501,6 +507,7 @@ var flowchart = {
 			}
 
 			var wireDataModel = {
+				color: flowchart.defaultWireColor, //defaultWireColor,
 				source: startTerminalType == 'output' ? startNode : endNode,
 				dest: startTerminalType == 'output' ? endNode : startNode,
 			};

@@ -116,11 +116,12 @@
 
   <g ng-if="draggingWire">
     <path class="dragging-wire dragging-wire-line"
+      ng-attr-style="stroke: {{draggingWireColor}};"
       ng-attr-d="M {{dragPoint1.x}}, {{dragPoint1.y}}
                  C {{dragTangent1.x}}, {{dragTangent1.y}}
                    {{dragTangent2.x}}, {{dragTangent2.y}}
-                   {{dragPoint2.x}}, {{dragPoint2.y}}"
-      ng-attr-style="stroke: {{newWireColor}};"/>
+                   {{dragPoint2.x}}, {{dragPoint2.y}}"/>
+     
     
 
     <circle class="dragging-wire dragging-wire-endpoint"

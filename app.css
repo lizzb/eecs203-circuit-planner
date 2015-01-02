@@ -128,7 +128,7 @@ Style for the wire being dragged out.
 
 .dragging-wire {
 	pointer-events: none;
-	stroke: gray;
+	/*stroke: gray;*/
 }
 
 .wire-dragging,
