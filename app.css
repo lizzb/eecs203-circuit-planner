@@ -25,6 +25,7 @@ Styles for labels on nodes
   font-family: Arial, Helvetica, sans-serif;
   font-variant: small-caps;
   font-size: 10pt;
+  stroke-width: 1;
 }
 
 .node-label { text-anchor: middle; }

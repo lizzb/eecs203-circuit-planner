@@ -48,7 +48,8 @@
       {{node.name()}}
     </text>
 
-    <g class="terminal input-terminal"
+    <g
+      class="terminal input-terminal"
       ng-repeat="terminal in node.inputTerminals"
       ng-mousedown="terminalMouseDown($event, node, terminal, $index, true)">
 
@@ -66,10 +67,9 @@
     </g>
 
     <g
-    class="terminal output-terminal"
+      class="terminal output-terminal"
       ng-repeat="terminal in node.outputTerminals"
-      ng-mousedown="terminalMouseDown($event, node, terminal, $index, false)"
-      >
+      ng-mousedown="terminalMouseDown($event, node, terminal, $index, false)">
       <text class="output-label"
         ng-attr-x="{{terminal.x() - node.defaultLabelOffset()}}" 
         ng-attr-y="{{terminal.y()}}">
