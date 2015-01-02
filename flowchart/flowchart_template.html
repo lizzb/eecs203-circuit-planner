@@ -119,8 +119,8 @@
       ng-attr-d="M {{dragPoint1.x}}, {{dragPoint1.y}}
                  C {{dragTangent1.x}}, {{dragTangent1.y}}
                    {{dragTangent2.x}}, {{dragTangent2.y}}
-                   {{dragPoint2.x}}, {{dragPoint2.y}}">
-    </path>
+                   {{dragPoint2.x}}, {{dragPoint2.y}}"
+      ng-attr-style="stroke: {{wire.color()}};"/>
 
     <circle class="dragging-wire dragging-wire-endpoint"
         ng-attr-r="{{dragPointR}}"

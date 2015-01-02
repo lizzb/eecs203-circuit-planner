@@ -86,9 +86,9 @@ Style for wires.
 /*.teal-wire {
 	stroke: teal;
 }*/
-.wire,
+/*.wire,*/
 .wire-line {
-	stroke: gray !important;
+	/*stroke: gray !important;*/
 	stroke-width: 4;
 	fill: transparent;
 }	
@@ -128,6 +128,7 @@ Style for the wire being dragged out.
 
 .dragging-wire {
 	pointer-events: none;
+	stroke: gray;
 }
 
 .wire-dragging,
