@@ -99,6 +99,9 @@ var flowchart = {
 	flowchart.NodeViewModel = function (nodeDataModel) {
 
 
+		//
+		//
+		//
 
 		// vertical placement/Y value of node name label
 		this.defaultLabelHeight = function () { return 25; };
@@ -108,8 +111,10 @@ var flowchart = {
 
 		this.cornerRad = function() { return 10; };
 
-
-
+		//
+		//
+		//
+		
 
 		this.data = nodeDataModel;
 

@@ -24,34 +24,22 @@ angular.module('app', ['flowChart', ])
 //
 .controller('AppCtrl', ['$scope', 'prompt', function AppCtrl ($scope, prompt) {
 
-	//
 	// Code for the delete key.
-	//
 	var deleteKeyCode = 46;
 
-	//
 	// Code for control key.
-	//
 	var ctrlKeyCode = 65;
 
-	//
 	// Set to true when the ctrl key is down.
-	//
 	var ctrlDown = false;
 
-	//
 	// Code for A key.
-	//
 	var aKeyCode = 17;
 
-	//
 	// Code for esc key.
-	//
 	var escKeyCode = 27;
 
-	//
 	// Selects the next node id.
-	//
 	var nextNodeID = 10;
 
 	//
@@ -62,7 +50,6 @@ angular.module('app', ['flowChart', ])
 
 	//
 	// Event handler for key-down on the flowchart.
-	//
 	$scope.keyDown = function (evt) {
 
 		if (evt.keyCode === ctrlKeyCode) {
@@ -75,7 +62,6 @@ angular.module('app', ['flowChart', ])
 
 	//
 	// Event handler for key-up on the flowchart.
-	//
 	$scope.keyUp = function (evt) {
 
 		if (evt.keyCode === deleteKeyCode) {
