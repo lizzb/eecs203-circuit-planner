@@ -7,6 +7,23 @@
 
 <style>
 
+
+.node-name {
+  text-anchor: middle;
+}
+
+.label {
+  alignment-baseline: middle;
+}
+
+.input-connector-name {
+  text-anchor: left;
+}
+
+.output-connector-name {
+  text-anchor: end;
+}
+
 .node-gradient {
   fill: url(#nodeBackgroundGradient);
 }
@@ -55,10 +72,9 @@ This value defines how the gradient is spread out through the shape. There are 3
     </rect>
 
     <text
+      class="label node-name"
       ng-attr-x="{{node.width()/2}}"
       y="25"
-      text-anchor="middle"
-      alignment-baseline="middle"
       >
       {{node.name()}}
     </text>
@@ -69,10 +85,9 @@ This value defines how the gradient is spread out through the shape. There are 3
       class="connector input-connector"
       >
       <text
+        class="label input-connector-name"
         ng-attr-x="{{connector.x() + 20}}"
         ng-attr-y="{{connector.y()}}"
-        text-anchor="left"
-        alignment-baseline="middle"
         >
         {{connector.name()}}
       </text>
@@ -91,10 +106,9 @@ This value defines how the gradient is spread out through the shape. There are 3
       class="connector output-connector"
       >
       <text
+        class="label output-connector-name"
         ng-attr-x="{{connector.x() - 20}}"
         ng-attr-y="{{connector.y()}}"
-        text-anchor="end"
-        alignment-baseline="middle"
         >
         {{connector.name()}}
       </text>
