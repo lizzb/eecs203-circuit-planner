@@ -351,7 +351,7 @@ var initialChartLayout = {
             "width": 120
         }
     ],
-    "connections": [
+    "wires": [
         {
             "source": {
                 "nodeID": 2,

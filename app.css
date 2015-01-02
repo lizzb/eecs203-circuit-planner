@@ -54,14 +54,16 @@ Styles for nodes and connectors.
 	stroke-width: 3;
 }
 
-/*.terminal,*/ .terminal-circle,
+/*.terminal,*/
+.terminal-circle,
 .connector-circle {
     fill: white;
     stroke: black;
     stroke-width: 2;
 }
 
-.terminal-hover, .mouseover-terminal-circle,
+.terminal-hover,
+.mouseover-terminal-circle,
 .mouseover-connector-circle {
     /*fill: white;
     stroke: black;*/
@@ -78,11 +80,11 @@ you can look for a 7483 datasheet online
 /*
 Style for connections.
 */
-
+.wire, 
 .connection {
 }
 
-.wire,
+.wire-line, 
 .connection-line {
 	stroke: gray;
 	stroke-width: 4;
@@ -90,6 +92,7 @@ Style for connections.
 }	
 
 .wire-hover,
+.mouseover-wire-line,
 .mouseover-connection-line {
 	stroke: gray;
 	stroke-width: 6;
@@ -97,6 +100,7 @@ Style for connections.
 }	
 
 .wire-selected,
+.selected-wire-line,
 .selected-connection-line {
 	stroke: red;
 	stroke-width: 4;
@@ -105,15 +109,20 @@ Style for connections.
 
 .metal-tip,
 .wiretip, .wire-tip,
+.wire-endpoint,
 .connection-endpoint {
 	fill: gray;
 }
 
 .wiretip-selected,
+.selected-wiretip-endpoint,
+.selected-wire-endpoint,
 .selected-connection-endpoint {
 	fill: red;
 }	
 .wiretip-hover,
+.mouseover-wiretip-endpoint,
+.mouseover-wire-endpoint,
 .mouseover-connection-endpoint {
 	fill: gray;
 }
@@ -121,18 +130,21 @@ Style for connections.
 /*
 Style for the connection being dragged out.
 */
-
+.dragging-wire,
 .dragging-connection {
 	pointer-events: none;
 }
 
 .wire-dragging,
+.dragging-wire-line,
 .dragging-connection-line {
 	stroke: gray;
 	stroke-width: 3;
 	fill: transparent;
 }	
 .wiretip-dragging,
+.dragging-wire-endpoint,
+.dragging-wire-endpoint,
 .dragging-connection-endpoint {
 	fill: gray;
 }
