@@ -4,6 +4,16 @@
   ng-mousedown="mouseDown($event)"
   ng-mousemove="mouseMove($event)"  
   >
+
+<style>
+
+.node-gradient {
+  fill: url(#nodeBackgroundGradient);
+}
+/*
+This value defines how the gradient is spread out through the shape. There are 3 possible values: pad, repeat, and reflect. 'pad' means that the first/last color of the gradient is padded (spread out) before and after the gradient.*/
+</style>
+
   <defs>
     <linearGradient 
       spreadMethod="pad" 
@@ -31,15 +41,16 @@
     ng-attr-transform="translate({{node.x()}}, {{node.y()}})"
     >
     <rect 
-      ng-attr-class="{{node.selected() && 'selected-node-rect' || (node == mouseOverNode && 'mouseover-node-rect' || 'node-rect')}}"
+      ng-attr-class="node-rect {{node.selected() && 'selected-node-rect' || (node == mouseOverNode && 'mouseover-node-rect' || 'node-rect')}}"
       ry="10" 
       rx="10" 
       x="0" 
       y="0" 
       ng-attr-width="{{node.width()}}" 
       ng-attr-height="{{node.height()}}" 
-      fill="url(#nodeBackgroundGradient)"
       >
+      <!--fill="url(#nodeBackgroundGradient)"-->
+      
 
     </rect>
 
