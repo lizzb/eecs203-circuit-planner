@@ -226,10 +226,9 @@ var flowchart = {
 		//
 		//
 		var defaultWireColor = "gray";
-		/*this.color = defaultWireColor;
-		if(this.data.color) this.color = this.data.color;
-
-		this.color = function () { return this.color; };
+		this.wireColor = defaultWireColor;
+		if(this.data.color) this.wireColor = this.data.color;
+		this.color = function () { return this.wireColor; };
 		//
 		//
 
@@ -244,7 +243,7 @@ var flowchart = {
 		return defaultWireColor;
 	};*/
 
-	this.color = function () { return this.data.color || defaultWireColor; };
+		//this.color = function () { return this.data.color || defaultWireColor; };
 
 		// Set to true when the wire is selected.
 		this._selected = false;

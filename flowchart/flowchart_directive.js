@@ -340,6 +340,7 @@ angular.module('flowChart', ['dragging'] )
 				//
 				//
 				//
+				$scope.newWireColor = "lime";
 				$scope.wireEndpointR = "5";
 				$scope.dragPointR = "4";
 				//
