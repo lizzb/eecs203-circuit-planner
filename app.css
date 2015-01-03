@@ -133,7 +133,7 @@ Style for the wire being dragged out.
 
 .wire-dragging,
 .dragging-wire-line {
-	stroke: gray;
+	/*stroke: gray;*/
 	stroke-width: 3;
 	fill: transparent;
 }	

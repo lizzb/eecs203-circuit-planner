@@ -9,8 +9,8 @@ var flowchart = {
 // Module.
 (function () {
 
-	// didnt work
-	flowchart.defaultWireColor = "salmon";
+	// THIS IS ONLY PLACE WHERE NEW COLOR OF WIRE SET 
+	flowchart.defaultWireColor = "violet";
 
 /*
 	// vertical placement/Y value of node name label
