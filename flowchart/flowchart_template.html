@@ -29,32 +29,99 @@
   </defs>
 
 
+<style>
+
+
+
+/*
+ <g transform="rotate(90,0,0) translate(-60,20)">
+
+    <g opacity="0.3">
+        <path d="M134.231,44.02
+                 c0,1.1-0.9,2-2,2
+                 h-82.258
+                 c-1.1,0-2-0.9-2-2
+                 v1.065
+                 c0-1.1,0.9-2,2-2
+                 h82.258
+                 c1.1,0,2,0.9,2,2
+                 z"/>
+    </g>
+    <path class="chip-body" d="M134.231,42.52
+                               c0,1.1-0.9,2-2,2
+                               h-82.258
+                               c-1.1,0-2-0.9-2-2
+                               V19.565
+                               c0-1.1,0.9-2,2-2
+                               h82.258
+                               c1.1,0,2,0.9,2,2
+                               z"/>
+
+    <g class="chip-circles">
+      <circle cx="64" cy="31" r="4"></circle>
+      <circle  cx="120" cy="31" r="4"></circle>
+    </g>
+
+    
+    <g class="pins">
+        <path  d="M54.228,15.02c-0.55,0-1,0.45-1,1l0,0c0,0.55,0,1,0,1h6c0,0,0-0.45,0-1l0,0c0-0.55-0.45-1-1-1H54.228z"/>
+        <path  d="M64.228,15.02c-0.55,0-1,0.45-1,1l0,0c0,0.55,0,1,0,1h6c0,0,0-0.45,0-1l0,0c0-0.55-0.45-1-1-1H64.228z"/>
+        <path  d="M74.228,15.02c-0.55,0-1,0.45-1,1l0,0c0,0.55,0,1,0,1h6c0,0,0-0.45,0-1l0,0c0-0.55-0.45-1-1-1H74.228z"/>
+        <path  d="M84.228,15.02c-0.55,0-1,0.45-1,1l0,0c0,0.55,0,1,0,1h6c0,0,0-0.45,0-1l0,0c0-0.55-0.45-1-1-1H84.228z"/>
+        <path  d="M94.228,15.02c-0.55,0-1,0.45-1,1l0,0c0,0.55,0,1,0,1h6c0,0,0-0.45,0-1l0,0c0-0.55-0.45-1-1-1H94.228z"/>
+        <path  d="M104.228,15.02c-0.55,0-1,0.45-1,1l0,0c0,0.55,0,1,0,1h6c0,0,0-0.45,0-1l0,0c0-0.55-0.45-1-1-1H104.228z"/>
+        <path  d="M114.228,15.02c-0.55,0-1,0.45-1,1l0,0c0,0.55,0,1,0,1h6c0,0,0-0.45,0-1l0,0c0-0.55-0.45-1-1-1H114.228z"/>
+        <path  d="M124.228,15.02c-0.55,0-1,0.45-1,1l0,0c0,0.55,0,1,0,1h6c0,0,0-0.45,0-1l0,0c0-0.55-0.45-1-1-1H124.228z"/>
+        <path  d="M128.228,47.02c0.55,0,1-0.45,1-1l0,0c0-0.55,0-1,0-1h-6c0,0,0,0.45,0,1l0,0c0,0.55,0.45,1,1,1H128.228z"/>
+        <path  d="M118.228,47.02c0.55,0,1-0.45,1-1l0,0c0-0.55,0-1,0-1h-6c0,0,0,0.45,0,1l0,0c0,0.55,0.45,1,1,1H118.228z"/>
+        <path  d="M108.228,47.02c0.55,0,1-0.45,1-1l0,0c0-0.55,0-1,0-1h-6c0,0,0,0.45,0,1l0,0c0,0.55,0.45,1,1,1H108.228z"/>
+        <path  d="M98.228,47.02c0.55,0,1-0.45,1-1l0,0c0-0.55,0-1,0-1h-6c0,0,0,0.45,0,1l0,0c0,0.55,0.45,1,1,1H98.228z"/>
+        <path  d="M88.228,47.02c0.55,0,1-0.45,1-1l0,0c0-0.55,0-1,0-1h-6c0,0,0,0.45,0,1l0,0c0,0.55,0.45,1,1,1H88.228z"/>
+        <path  d="M78.228,47.02c0.55,0,1-0.45,1-1l0,0c0-0.55,0-1,0-1h-6c0,0,0,0.45,0,1l0,0c0,0.55,0.45,1,1,1H78.228z"/>
+        <path  d="M68.228,47.02c0.55,0,1-0.45,1-1l0,0c0-0.55,0-1,0-1h-6c0,0,0,0.45,0,1l0,0c0,0.55,0.45,1,1,1H68.228z"/>
+        <path  d="M58.228,47.02c0.55,0,1-0.45,1-1l0,0c0-0.55,0-1,0-1h-6c0,0,0,0.45,0,1l0,0c0,0.55,0.45,1,1,1H58.228z"/>
+        
+        
+        
+    </g> <!-- / #pins -->
+    
+    </g>
+    */
+</style>
+
   <g
-    ng-repeat="node in chart.nodes"
-    ng-mousedown="nodeMouseDown($event, node)"
-    ng-attr-transform="translate({{node.x()}}, {{node.y()}})">
+    ng-repeat="ic in chart.nodes"
+    ng-mousedown="nodeMouseDown($event, ic)"
+    ng-attr-transform="translate({{ic.x()}}, {{ic.y()}})">
     <rect
-      ng-attr-class="node-rect {{node.selected() && 'selected-node-rect' || (node == mouseOverNode && 'mouseover-node-rect' || 'node-rect')}}"
-      ng-attr-ry="{{node.cornerRad()}}"
-      ng-attr-rx="{{node.cornerRad()}}"
+      ng-attr-class="ic-rect {{ic.selected() && 'selected-ic-rect' || (ic == mouseOverNode && 'mouseover-ic-rect' || 'ic-rect')}}"
+      ng-attr-ry="{{ic.cornerRad()}}"
+      ng-attr-rx="{{ic.cornerRad()}}"
       x="0" y="0" 
-      ng-attr-width="{{node.width()}}" 
-      ng-attr-height="{{node.height()}}"/>
+      ng-attr-width="{{ic.width()}}" 
+      ng-attr-height="{{ic.height()}}"
+      />
       <!--fill="url(#nodeBackgroundGradient)"-->
 
-    <text class="node-label"
-      ng-attr-x="{{node.width()/2}}"
-      ng-attr-y="{{node.defaultLabelHeight()}}">
-      {{node.name()}}
+      <!--g class="chip-circles">
+      <circle cx="64" cy="31" r="4"></circle>
+      <circle  cx="120" cy="31" r="4"></circle>
+    </g-->
+
+
+    <text class="ic-label"
+      ng-attr-x="{{ic.width()/2}}"
+      ng-attr-y="{{ic.defaultLabelHeight()}}">
+      {{ic.name()}}
     </text>
 
     <g
       class="terminal input-terminal"
-      ng-repeat="terminal in node.inputTerminals"
-      ng-mousedown="terminalMouseDown($event, node, terminal, $index, true)">
+      ng-repeat="terminal in ic.inputTerminals"
+      ng-mousedown="terminalMouseDown($event, ic, terminal, $index, true)">
 
       <text class="input-label"
-        ng-attr-x="{{terminal.x() + node.defaultLabelOffset()}}" 
+        ng-attr-x="{{terminal.x() + ic.defaultLabelOffset()}}" 
         ng-attr-y="{{terminal.y()}}">
         {{terminal.name()}}
       </text>
@@ -68,10 +135,10 @@
 
     <g
       class="terminal output-terminal"
-      ng-repeat="terminal in node.outputTerminals"
-      ng-mousedown="terminalMouseDown($event, node, terminal, $index, false)">
+      ng-repeat="terminal in ic.outputTerminals"
+      ng-mousedown="terminalMouseDown($event, ic, terminal, $index, false)">
       <text class="output-label"
-        ng-attr-x="{{terminal.x() - node.defaultLabelOffset()}}" 
+        ng-attr-x="{{terminal.x() - ic.defaultLabelOffset()}}" 
         ng-attr-y="{{terminal.y()}}">
         {{terminal.name()}}
       </text>
@@ -142,5 +209,8 @@
       ng-attr-y="{{dragSelectionRect.y}}"
       ng-attr-width="{{dragSelectionRect.width}}"
       ng-attr-height="{{dragSelectionRect.height}}"/>
+
+
+
   
 </svg>
